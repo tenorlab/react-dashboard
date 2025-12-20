@@ -1,4 +1,4 @@
-export * from './interfaces'
+export * from './interfaces/'
 export * from './dashboard-settings'
 export * from './use-dashboard-store'
 export * from './use-dashboard-storage-service'
