@@ -187,8 +187,9 @@ export const getWidgetMetaFromCatalog = <
 export const createStaticEntry = <TFrameworkComponentType = any>(
   key: string,
   component: TFrameworkComponentType,
+  metaData?: TWidgetMetaInfoBase
 ): [string, IDynamicWidgetCatalogEntryBase] => {
-  const meta = getDefaultWidgetMetaFromKey(key)
+  const meta = metaData || getDefaultWidgetMetaFromKey(key)
   return [
     key,
     {
@@ -208,8 +209,9 @@ export const createStaticEntry = <TFrameworkComponentType = any>(
 export const createDynamicEntry = (
   key: string,
   loader: TWidgetFactoryBase,
-  meta: TWidgetMetaInfoBase,
+  metaData: TWidgetMetaInfoBase,
 ): [string, IDynamicWidgetCatalogEntryBase] => {
+  const meta = metaData || getDefaultWidgetMetaFromKey(key)
   return [
     key,
     {
