@@ -1,9 +1,8 @@
 {
   "name": "@tenorlab/react-dashboard",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Foundation components for creating user-configurable dashboards in React",
   "author": "Damiano Fusco",
-  "license": "MIT",
   "type": "module",
   "repository": {
     "type": "git",
@@ -19,7 +18,6 @@
   "scripts": {
     "dev": "vite",
     "clean": "rm -rf dist node_modules package-lock.json",
-    "init": "npm run clean; npm i;",
     "build-types": "tsc src/index.ts --jsx react-jsx --downlevelIteration --esModuleInterop --declaration --emitDeclarationOnly --outDir dist",
     "build": "npm run pretty; tsc --jsx react-jsx --esModuleInterop && vite build; npm run build-types",
     "pub": "npm publish --access public",
@@ -45,7 +43,8 @@
         "types": "./dist/index.d.ts",
         "default": "./dist/react-dashboard.umd.js"
       }
-    }
+    },
+    "./styles.css": "./dist/react-dashboard.css"
   },
   "types": "./dist/index.d.ts",
   "main": "./dist/react-dashboard.umd.js",
