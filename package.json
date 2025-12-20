@@ -20,7 +20,7 @@
     "clean": "rm -rf dist node_modules package-lock.json",
     "build-types": "tsc src/index.ts --jsx react-jsx --downlevelIteration --esModuleInterop --declaration --emitDeclarationOnly --outDir dist",
     "build": "npm run pretty; tsc --jsx react-jsx --esModuleInterop && vite build; npm run build-types",
-    "pub": "npm publish --access public otp=",
+    "pub": "npm publish --access public --otp=",
     "test": "TESTING=true vitest run",
     "test-watch": "TESTING=true vitest watch",
     "pretty": "prettier -w \"./src/**/*.ts*\"",
