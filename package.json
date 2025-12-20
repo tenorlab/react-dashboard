@@ -1,0 +1,66 @@
+{
+  "name": "@tenorlab/react-dashboard",
+  "version": "1.0.0",
+  "description": "Foundation components for creating user-configurable dashboards in React",
+  "author": "Damiano Fusco",
+  "license": "MIT",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tenorlab/react-dashboard.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tenorlab/react-dashboard/issues"
+  },
+  "homepage": "https://github.com/tenorlab/react-dashboard#readme",
+  "keywords": [
+    "dashboard, component, libraries, scripts, javascript, react"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "clean": "rm -rf dist node_modules package-lock.json",
+    "init": "npm run clean; npm i;",
+    "build-types": "tsc src/index.ts --jsx react-jsx --downlevelIteration --esModuleInterop --declaration --emitDeclarationOnly --outDir dist",
+    "build": "npm run pretty; tsc --jsx react-jsx --esModuleInterop && vite build; npm run build-types",
+    "pub": "npm publish --access public",
+    "test": "TESTING=true vitest run",
+    "test-watch": "TESTING=true vitest watch",
+    "pretty": "prettier -w \"./src/**/*.ts*\"",
+    "version-patch": "npm run pretty && npm version patch -m \"Patch version\"",
+    "preversion": "npm run test",
+    "version": "npm run build",
+    "postversion": "git push",
+    "push": "npm run pretty; git add .; git commit -m \"Latest\"; git push"
+  },
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/react-dashboard.es.js"
+      },
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/react-dashboard.umd.js"
+      }
+    }
+  },
+  "types": "./dist/index.d.ts",
+  "main": "./dist/react-dashboard.umd.js",
+  "module": "./dist/react-dashboard.es.js",
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^5.1.1",
+    "prettier": "^3.7.4",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
+    "react-draggable": "^4.5.0",
+    "typescript": "~5.9.3",
+    "vite": "^7.2.4",
+    "vitest": "^4.0.16",
+    "zustand": "^5.0.9"
+  }
+}
