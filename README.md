@@ -22,7 +22,12 @@ pnpm add @tenorlab/react-dashboard
 ```
 
 ## Basic Usage
-TODO
+Import the styles in your entry tsx file (usually main.tsx):
+```typescript
+import '@tenorlab/react-dashboard/styles.css'
+```
+
+TODO:
 
 
 ## Features
