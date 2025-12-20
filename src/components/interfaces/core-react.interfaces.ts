@@ -1,4 +1,5 @@
 // file: src/components/interfaces/core-react.interfaces.ts
+import type { ReactNode, JSX } from 'react'
 import type {
   TDashboardWidgetKey,
   TWidgetMetaInfoBase,
@@ -6,10 +7,14 @@ import type {
   IDashboardGridPropsBase,
   TWidgetFactoryBase,
   IDynamicWidgetCatalogEntryBase,
+  TDashboardWidgetCatalogBase,
 } from './core.base'
-import type { ReactNode, ElementType, JSX } from 'react'
 
-export type TWidgetMetaInfo = TWidgetMetaInfoBase<ElementType | undefined>
+// framework specific component type and element type
+type TFrameworkComponentType = React.ComponentType<any>
+type TFrameworkElementType = React.ElementType
+
+export type TWidgetMetaInfo = TWidgetMetaInfoBase<TFrameworkElementType | undefined>
 
 export interface IDashboardGridProps extends IDashboardGridPropsBase {
   children?: ReactNode
@@ -30,20 +35,25 @@ export interface IDashboardWidget extends JSX.Element {}
 
 /* begin: support plugin architecture */
 
-type TFrameworkComponentType = React.ComponentType<any>
-
 export type TWidgetFactory = TWidgetFactoryBase<TFrameworkComponentType>
+
+// export interface IDynamicWidgetCatalogEntry extends IDynamicWidgetCatalogEntryBase<
+//   TWidgetMetaInfo,
+//   TWidgetFactory,
+//   TFrameworkComponentType
+// > {}
 export interface IDynamicWidgetCatalogEntry extends IDynamicWidgetCatalogEntryBase<
-  TWidgetMetaInfo,
-  TWidgetFactory,
+  TFrameworkElementType,
   TFrameworkComponentType
 > {}
 
 // Abstract Catalog Type:
 // It is a Map where the keys are TDashboardWidgetKey
 // and the values are TDashboardWidgetFn functions that accept props with key TDashboardWidgetKey.
-// export type TDashboardWidgetFn = (props: IDashboardWidgetProps) => IDashboardWidget
-// export type TDashboardWidgetCatalog = Map<TDashboardWidgetKey, TDashboardWidgetFn>
-export type TDashboardWidgetCatalog = Map<TDashboardWidgetKey, IDynamicWidgetCatalogEntry>
+//export type TDashboardWidgetCatalog = Map<TDashboardWidgetKey, IDynamicWidgetCatalogEntry>
+export type TDashboardWidgetCatalog = TDashboardWidgetCatalogBase<
+  TFrameworkElementType,
+  TFrameworkComponentType
+>
 
 /* end: support plugin architecture */

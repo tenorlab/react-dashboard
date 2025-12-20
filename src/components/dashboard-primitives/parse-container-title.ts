@@ -1,4 +1,4 @@
-import { TDashboardWidgetKey } from '../interfaces'
+import type { TDashboardWidgetKey } from '../interfaces'
 
 export const parseContainerTitle = (containerWidgetKey: TDashboardWidgetKey): string => {
   const parts = `${containerWidgetKey}`.split('_')

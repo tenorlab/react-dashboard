@@ -1,4 +1,4 @@
-import { IDashboardSettingEntry } from '../interfaces'
+import type { IDashboardSettingEntry } from '../interfaces'
 
 // for these we increment by defaultStep, anythnig else we increment by 1
 const _largerStepUnits = ['rem', 'pc', 'cm', 'in', 'em', 'vh', 'vw', '%']

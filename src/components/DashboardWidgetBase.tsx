@@ -1,6 +1,5 @@
 // file: src/components/DashboardWidgetBase.tsx
 import { forwardRef } from 'react'
-import { IDashboardWidgetProps } from './interfaces'
 import { Button } from './dashboard-primitives/'
 import {
   XCircleIcon as RemoveWidgetIcon,
@@ -8,6 +7,7 @@ import {
   MoveRightIcon,
 } from './dashboard-primitives/'
 import { getDistinctCssClasses } from './dashboard-primitives/'
+import type { IDashboardWidgetProps } from './interfaces/core-react.interfaces'
 
 const defaultActionIconSize = 'size-5'
 

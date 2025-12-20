@@ -1,5 +1,5 @@
-import { IButtonProps } from './interfaces'
 import { getDistinctCssClasses } from './use-distinct-css-classes'
+import type { IButtonProps } from './interfaces'
 
 const cssStrategy = new Map<string, string>([
   [

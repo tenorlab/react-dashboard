@@ -1,7 +1,13 @@
 // file: src/components/interfaces/core.utils.ts
-import type { TDashboardWidgetKey, TWidgetCategory } from './core.base'
-import type { IDashboardConfig, TWidgetMetaInfo, TDashboardWidgetCatalog } from './core.interfaces'
 import { cssSettingsCatalog } from '../dashboard-settings'
+import type {
+  TDashboardWidgetKey,
+  TWidgetCategory,
+  TWidgetMetaInfoBase,
+  TDashboardWidgetCatalogBase,
+  TGetDefaultWidgetMetaFromKey,
+} from './core.base'
+import type { IDashboardConfig } from './core.interfaces'
 
 // blank dashboard configuratino
 export const blankDashboardConfig: IDashboardConfig = {
@@ -38,7 +44,7 @@ export const getNewZoomScaleWithinRange = (currentZoomScale: number, direction: 
   return ensureZoomScaleIsWithinRange(result)
 }
 
-const _getDefaultWidgetMetaFromKey = (
+export const getDefaultWidgetMetaFromKey: TGetDefaultWidgetMetaFromKey = (
   widgetKey: TDashboardWidgetKey,
   options?: {
     title?: string
@@ -63,35 +69,38 @@ const _getDefaultWidgetMetaFromKey = (
  * @name getDefaultWidgetMetaFromMap
  * @description Helper to get widget meta info from the catalog by key.
  */
-export const getDefaultWidgetMetaFromMap = (
+export const getDefaultWidgetMetaFromMap = <TFrameworkElementType = any>(
   widgetKey: TDashboardWidgetKey,
-  defaultWidgetMetaMap: Record<TDashboardWidgetKey, TWidgetMetaInfo>,
+  defaultWidgetMetaMap: Record<TDashboardWidgetKey, TWidgetMetaInfoBase<TFrameworkElementType>>,
   options?: {
     title?: string
     description?: string
   },
-): TWidgetMetaInfo => {
+): TWidgetMetaInfoBase<TFrameworkElementType> => {
   const metaData = defaultWidgetMetaMap[widgetKey]
   if (metaData) {
     return metaData
   }
-  return _getDefaultWidgetMetaFromKey(widgetKey, options)
+  return getDefaultWidgetMetaFromKey(widgetKey, options)
 }
 
 /**
  * @name getWidgetMetaFromCatalog
  * @description Helper to get widget meta info from the catalog by key.
  */
-export const getWidgetMetaFromCatalog = (
+export const getWidgetMetaFromCatalog = <
+  TFrameworkElementType = any,
+  TFrameworkComponentType = any,
+>(
   widgetKey: TDashboardWidgetKey,
-  widgetsCatalog: TDashboardWidgetCatalog,
-): TWidgetMetaInfo => {
+  widgetsCatalog: TDashboardWidgetCatalogBase<TFrameworkElementType, TFrameworkComponentType>,
+): TWidgetMetaInfoBase<TFrameworkElementType> => {
   const entry = widgetsCatalog.get(widgetKey)
   const metaData = entry?.meta
   if (metaData) {
     return metaData
   }
-  return _getDefaultWidgetMetaFromKey(widgetKey)
+  return getDefaultWidgetMetaFromKey(widgetKey)
 }
 
 export const removeEmptyContainers = (dashboardConfig: IDashboardConfig): IDashboardConfig => {

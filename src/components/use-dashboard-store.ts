@@ -1,11 +1,7 @@
 import { create } from 'zustand'
 import { StateCreator } from 'zustand'
-import {
-  IDashboardConfig,
-  TDashboardWidgetKey,
-  blankDashboardConfig,
-  ensureContainersSequence,
-} from './interfaces'
+import { blankDashboardConfig, ensureContainersSequence } from './interfaces'
+import type { IDashboardConfig, TDashboardWidgetKey } from './interfaces'
 
 type TAddWidgetResponse = {
   success: boolean

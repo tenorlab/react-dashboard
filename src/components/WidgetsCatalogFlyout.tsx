@@ -1,13 +1,5 @@
 // file: src/components/WidgetsCatalogFlyout.tsx
 import { useState, useEffect } from 'react'
-import {
-  IDashboardConfig,
-  IDashboardSettingEntry,
-  TDashboardUndoStatus,
-  TDashboardWidgetCatalog,
-  TDashboardWidgetKey,
-  TWidgetMetaInfo,
-} from './interfaces/'
 import { getWidgetMetaFromCatalog } from './interfaces/'
 import { dashboardSettingsUtils } from './dashboard-settings/'
 import {
@@ -24,6 +16,14 @@ import {
   getDistinctCssClasses,
   parseContainerTitle,
 } from './dashboard-primitives/'
+import type {
+  IDashboardConfig,
+  IDashboardSettingEntry,
+  TDashboardUndoStatus,
+  TDashboardWidgetCatalog,
+  TDashboardWidgetKey,
+  TWidgetMetaInfoBase,
+} from './interfaces/'
 
 function WidgetListItem({
   // widgetKey,
@@ -32,7 +32,7 @@ function WidgetListItem({
   addWidget,
 }: {
   widgetKey: TDashboardWidgetKey
-  metaData: TWidgetMetaInfo
+  metaData: TWidgetMetaInfoBase
   alreadyAdded: boolean
   addWidget: () => void
 }) {
@@ -187,7 +187,7 @@ export function WidgetsCatalogFlyout({
   // Filter out the container and map the remaining keys to their metadata
   const widgetsWithMeta: {
     widgetKey: TDashboardWidgetKey
-    metaData: TWidgetMetaInfo
+    metaData: TWidgetMetaInfoBase
   }[] = widgetKeys.map((widgetKey) => ({
     widgetKey,
     metaData: getWidgetMetaFromCatalog(widgetKey, widgetsCatalog),
@@ -201,7 +201,7 @@ export function WidgetsCatalogFlyout({
     setSearchText(event.target.value)
   }
 
-  const matchSearchTextForWidget = (metaData: TWidgetMetaInfo): boolean => {
+  const matchSearchTextForWidget = (metaData: TWidgetMetaInfoBase): boolean => {
     const lowerCaseText = searchText.trim().toLowerCase()
     if (lowerCaseText.length < 1) {
       return true

@@ -1,12 +1,12 @@
 // file: src/components/DynamicWidgetLoader.tsx
 import React, { Suspense, useMemo } from 'react'
 import { parseContainerTitle } from './dashboard-primitives/'
+import { DashboardWidgetBase } from './DashboardWidgetBase'
 import type {
   IChildWidgetConfigEntry,
   TDashboardWidgetCatalog,
   TDashboardWidgetKey,
 } from './interfaces'
-import { DashboardWidgetBase } from './DashboardWidgetBase'
 
 type TDynamicWidgetLoaderProps = {
   index: number

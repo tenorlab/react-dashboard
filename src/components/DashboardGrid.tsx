@@ -1,7 +1,8 @@
 // file: src/components/DashboardGrid.tsx
 import { forwardRef, CSSProperties } from 'react'
-import { IDashboardGridProps, ensureZoomScaleIsWithinRange } from './interfaces'
 import { getDistinctCssClasses } from './dashboard-primitives/'
+import { ensureZoomScaleIsWithinRange } from './interfaces'
+import type { IDashboardGridProps } from './interfaces/core-react.interfaces'
 
 interface CustomCSSProperties extends CSSProperties {
   '--bwj-dashboard-transform-scale': number

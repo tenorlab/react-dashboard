@@ -5,12 +5,12 @@ export type TDashboardWidgetKey = string
 
 export type TWidgetCategory = 'Widget' | 'Chart' | 'Container'
 
-export type TWidgetMetaInfoBase<T> = {
+export type TWidgetMetaInfoBase<TFrameworkElementType = any> = {
   displayName: string
   description: string
   categories: TWidgetCategory[]
   noDuplicatedWidgets?: boolean // if true, we do not allow to add the same widget twice
-  icon: T | undefined
+  icon: TFrameworkElementType | undefined
 }
 
 export interface IDashboardGridPropsBase {
@@ -41,17 +41,18 @@ export interface IDashboardWidgetPropsBase {
   direction?: TWidgetDirection // for containers only
 }
 
-/* begin: support plugin architecture */
-
+/* support plugin architecture: */
 /**
  * 1. Define the Async Loader type
  * Type for the function that performs the asynchronous dynamic import.
  * It must return a promise that resolves to the module containing the widget component
  * as its default export (or a named export if you change the loading strategy).
  *
- * T could be "React.ComponentType<any>"" or "VueComponent" etc
+ * TFrameworkComponent could be "React.ComponentType<any>"" or "VueComponent" etc
  */
-export type TWidgetFactoryBase<T> = () => Promise<{ default: T }>
+export type TWidgetFactoryBase<TFrameworkComponent = any> = () => Promise<{
+  default: TFrameworkComponent
+}>
 
 /**
  * 2. Define the flexible Catalog Entry
@@ -62,18 +63,56 @@ export type TWidgetFactoryBase<T> = () => Promise<{ default: T }>
  * TWidgetFactory: see TWidgetFactoryBase
  * TComponent: i.e. React.ComponentType<any>
  */
-export interface IDynamicWidgetCatalogEntryBase<TMeta, TFactory, TComponent> {
+// export interface IDynamicWidgetCatalogEntryBase<TMeta, TFactory, TComponent> {
+//   // A unique identifier used in the saved configuration JSON
+//   key: TDashboardWidgetKey
+//   title: string
+//   isContainer?: boolean
+//   meta?: TMeta // i.e. TWidgetMetaInfo
+
+//   // OPTIONAL Property A: The direct React component reference (for static, core widgets)
+//   component?: TComponent
+
+//   // OPTIONAL Property B: The function to asynchronously load the component (for dynamic plugins)
+//   loader?: TFactory // i.e. TWidgetFactory
+// }
+/**
+ * 2. Define the flexible Catalog Entry
+ * Definition of a single widget or container in the catalog.
+ * It must have EITHER a direct 'component' reference OR a 'loader' function.
+ *
+ * TFrameworkElementType: see TWidgetMetaInfoBase
+ * TFrameworkComponentType: i.e. React.ComponentType<any> (see TWidgetFactoryBase)
+ */
+export interface IDynamicWidgetCatalogEntryBase<TFrameworkElementType, TFrameworkComponentType> {
   // A unique identifier used in the saved configuration JSON
   key: TDashboardWidgetKey
   title: string
   isContainer?: boolean
-  meta?: TMeta // i.e. TWidgetMetaInfo
+  meta?: TWidgetMetaInfoBase<TFrameworkElementType> // i.e. TWidgetMetaInfo
 
   // OPTIONAL Property A: The direct React component reference (for static, core widgets)
-  component?: TComponent
+  component?: TFrameworkComponentType
 
   // OPTIONAL Property B: The function to asynchronously load the component (for dynamic plugins)
-  loader?: TFactory // i.e. TWidgetFactory
+  loader?: TWidgetFactoryBase<TFrameworkComponentType> // i.e. TWidgetFactory
 }
 
-/* end: support plugin architecture */
+export type TDashboardWidgetCatalogBase<
+  TFrameworkElementType = any,
+  TFrameworkComponentType = any,
+> = Map<
+  TDashboardWidgetKey,
+  IDynamicWidgetCatalogEntryBase<TFrameworkElementType, TFrameworkComponentType>
+>
+
+/* begin: core utils */
+export type TGetDefaultWidgetMetaFromKeyOptions = {
+  title?: string
+  description?: string
+}
+export type TGetDefaultWidgetMetaFromKey = (
+  widgetKey: TDashboardWidgetKey,
+  options?: TGetDefaultWidgetMetaFromKeyOptions,
+) => TWidgetMetaInfoBase<any>
+/* end */

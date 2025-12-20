@@ -1,6 +1,6 @@
 // file: use-dashboard-undo-service.tsx
+import type { IDashboardConfig, TUndoHistoryEntry, TDashboardUndoStatus } from './interfaces'
 import { useState, useCallback } from 'react'
-import { IDashboardConfig, TUndoHistoryEntry, TDashboardUndoStatus } from './interfaces'
 
 export const useDashboardUndoService = () => {
   // State to hold the history: { 'dashboardId': [entry, entry, ...] }

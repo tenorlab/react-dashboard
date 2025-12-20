@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
-import { ITextFieldProps } from './interfaces'
 import { getDistinctCssClasses } from './use-distinct-css-classes'
+import type { ITextFieldProps } from './interfaces'
 
 /**
  * A reusable, styled TextField component built with Tailwind CSS.

@@ -1,5 +1,5 @@
 import { ReactNode, forwardRef } from 'react'
-import { Stack, TStackProps } from './Stack'
+import { Stack, type TStackProps } from './Stack'
 import { getDistinctCssClasses } from './use-distinct-css-classes'
 
 export const ListItem = forwardRef<HTMLDivElement, TStackProps & { innerClass?: string }>(

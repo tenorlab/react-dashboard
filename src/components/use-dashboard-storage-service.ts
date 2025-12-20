@@ -1,4 +1,5 @@
-import {
+// file: src/components/use-dashboard-storage-service.ts
+import type {
   IDashboardConfig,
   TDashboardWidgetCatalog,
   IDashboardStorageService,

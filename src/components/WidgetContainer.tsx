@@ -1,6 +1,4 @@
 // file: src/components/WidgetContainer.tsx
-import { JSX } from 'react'
-import { IDashboardWidgetProps, IDashboardWidget } from './interfaces'
 import { Button } from './dashboard-primitives'
 import {
   XCircleIcon as RemoveWidgetIcon,
@@ -9,6 +7,8 @@ import {
   CrosshairIcon as ContainerTargetedIcon,
 } from './dashboard-primitives'
 import { getDistinctCssClasses } from './dashboard-primitives'
+import type { JSX } from 'react'
+import type { IDashboardWidgetProps, IDashboardWidget } from './interfaces/core-react.interfaces'
 
 const defaultActionIconSize = 'size-5'
 

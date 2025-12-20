@@ -1,4 +1,4 @@
-import { IDashboardSettingEntry } from '../interfaces'
+import type { IDashboardSettingEntry } from '../interfaces'
 
 export const cssVarsUtils = {
   getCssVariableValue: (cssPropertyName: string): string | null => {

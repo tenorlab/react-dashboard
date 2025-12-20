@@ -1,11 +1,12 @@
 // file: src/components/interfaces/storage-service.interfaces.ts
-import type { TDashboardWidgetCatalog, IDashboardConfig } from './core.interfaces'
+import type { TDashboardWidgetCatalogBase } from './core.base'
+import type { IDashboardConfig } from './core.interfaces'
 
 /* begin: storage service interfaces */
 export type TGetSavedDashboards = (
   userID: number | string,
   clientAppKey: string,
-  widgetCatalog: TDashboardWidgetCatalog,
+  widgetCatalog: TDashboardWidgetCatalogBase,
   defaultDashboardConfig: IDashboardConfig,
 ) => Promise<IDashboardConfig[]>
 
@@ -13,7 +14,7 @@ export type TSaveDashboards = (
   userID: number | string,
   clientAppKey: string,
   dashboardConfigs: IDashboardConfig[],
-  widgetCatalog: TDashboardWidgetCatalog,
+  widgetCatalog: TDashboardWidgetCatalogBase,
 ) => Promise<boolean>
 
 export interface IDashboardStorageService {

@@ -1,5 +1,4 @@
 // file: src/components/interfaces/core.interfaces.ts
-export * from './core-react.interfaces'
 import type { TDashboardWidgetKey } from './core.base'
 
 // for saving dash config as json:

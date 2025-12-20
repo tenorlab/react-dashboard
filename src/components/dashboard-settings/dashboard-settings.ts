@@ -1,4 +1,4 @@
-import { IDashboardSettingEntry } from '../interfaces'
+import type { IDashboardSettingEntry } from '../interfaces'
 
 // NOTE: step should never be less than 0.1 as we do some rounding somewhere ...
 export const cssSettingsCatalog: IDashboardSettingEntry[] = [
