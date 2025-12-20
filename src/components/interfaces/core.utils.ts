@@ -187,7 +187,7 @@ export const getWidgetMetaFromCatalog = <
 export const createStaticEntry = <TFrameworkComponentType = any>(
   key: string,
   component: TFrameworkComponentType,
-  metaData?: TWidgetMetaInfoBase
+  metaData?: TWidgetMetaInfoBase,
 ): [string, IDynamicWidgetCatalogEntryBase] => {
   const meta = metaData || getDefaultWidgetMetaFromKey(key)
   return [
