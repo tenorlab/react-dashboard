@@ -6,6 +6,9 @@ import type {
   TWidgetMetaInfoBase,
   TDashboardWidgetCatalogBase,
   TGetDefaultWidgetMetaFromKey,
+  TWidgetFactoryBase,
+  IDynamicWidgetCatalogEntryBase,
+  TManifestEntry,
 } from './core.base'
 import type { IDashboardConfig } from './core.interfaces'
 
@@ -42,65 +45,6 @@ export const getNewZoomScaleWithinRange = (currentZoomScale: number, direction: 
   let factor = Number(Number((DashboardZoomStep * direction).toFixed(2)).toFixed(2))
   let result = Number((Number(currentZoomScale) + factor).toFixed(2))
   return ensureZoomScaleIsWithinRange(result)
-}
-
-export const getDefaultWidgetMetaFromKey: TGetDefaultWidgetMetaFromKey = (
-  widgetKey: TDashboardWidgetKey,
-  options?: {
-    title?: string
-    description?: string
-  },
-) => {
-  const isContainer = `${widgetKey}`.includes('Container')
-  const categories: TWidgetCategory[] = isContainer ? ['Container'] : ['Widget']
-  const title = options?.title || widgetKey
-  const description = options?.description || (isContainer ? 'Container' : 'Unknown')
-  return {
-    title,
-    displayName: widgetKey,
-    description,
-    categories,
-    noDuplicatedWidgets: true,
-    icon: undefined,
-  }
-}
-
-/**
- * @name getDefaultWidgetMetaFromMap
- * @description Helper to get widget meta info from the catalog by key.
- */
-export const getDefaultWidgetMetaFromMap = <TFrameworkElementType = any>(
-  widgetKey: TDashboardWidgetKey,
-  defaultWidgetMetaMap: Record<TDashboardWidgetKey, TWidgetMetaInfoBase<TFrameworkElementType>>,
-  options?: {
-    title?: string
-    description?: string
-  },
-): TWidgetMetaInfoBase<TFrameworkElementType> => {
-  const metaData = defaultWidgetMetaMap[widgetKey]
-  if (metaData) {
-    return metaData
-  }
-  return getDefaultWidgetMetaFromKey(widgetKey, options)
-}
-
-/**
- * @name getWidgetMetaFromCatalog
- * @description Helper to get widget meta info from the catalog by key.
- */
-export const getWidgetMetaFromCatalog = <
-  TFrameworkElementType = any,
-  TFrameworkComponentType = any,
->(
-  widgetKey: TDashboardWidgetKey,
-  widgetsCatalog: TDashboardWidgetCatalogBase<TFrameworkElementType, TFrameworkComponentType>,
-): TWidgetMetaInfoBase<TFrameworkElementType> => {
-  const entry = widgetsCatalog.get(widgetKey)
-  const metaData = entry?.meta
-  if (metaData) {
-    return metaData
-  }
-  return getDefaultWidgetMetaFromKey(widgetKey)
 }
 
 export const removeEmptyContainers = (dashboardConfig: IDashboardConfig): IDashboardConfig => {
@@ -172,4 +116,178 @@ export const ensureContainersSequence = (dashboardConfig: IDashboardConfig): IDa
   })
 
   return dashboardConfig
+}
+
+/* catalog utils */
+
+export const getDefaultWidgetMetaFromKey: TGetDefaultWidgetMetaFromKey = (
+  widgetKey: TDashboardWidgetKey,
+  options?: {
+    title?: string
+    description?: string
+  },
+) => {
+  const isContainer = `${widgetKey}`.includes('Container')
+  const categories: TWidgetCategory[] = isContainer ? ['Container'] : ['Widget']
+  const title = options?.title || widgetKey
+  const description = options?.description || (isContainer ? 'Container' : 'Unknown')
+  return {
+    title,
+    displayName: widgetKey,
+    description,
+    categories,
+    noDuplicatedWidgets: true,
+    icon: undefined,
+  }
+}
+
+/**
+ * @name getDefaultWidgetMetaFromMap
+ * @description Helper to get widget meta info from the catalog by key.
+ */
+export const getDefaultWidgetMetaFromMap = <TFrameworkElementType = any>(
+  widgetKey: TDashboardWidgetKey,
+  defaultWidgetMetaMap: Record<TDashboardWidgetKey, TWidgetMetaInfoBase<TFrameworkElementType>>,
+  options?: {
+    title?: string
+    description?: string
+  },
+): TWidgetMetaInfoBase<TFrameworkElementType> => {
+  const metaData = defaultWidgetMetaMap[widgetKey]
+  if (metaData) {
+    return metaData
+  }
+  return getDefaultWidgetMetaFromKey(widgetKey, options)
+}
+
+/**
+ * @name getWidgetMetaFromCatalog
+ * @description Helper to get widget meta info from the catalog by key.
+ */
+export const getWidgetMetaFromCatalog = <
+  TFrameworkElementType = any,
+  TFrameworkComponentType = any,
+>(
+  widgetKey: TDashboardWidgetKey,
+  widgetsCatalog: TDashboardWidgetCatalogBase<TFrameworkElementType, TFrameworkComponentType>,
+): TWidgetMetaInfoBase<TFrameworkElementType> => {
+  const entry = widgetsCatalog.get(widgetKey)
+  const metaData = entry?.meta
+  if (metaData) {
+    return metaData
+  }
+  return getDefaultWidgetMetaFromKey(widgetKey)
+}
+
+/**
+ * @name createStaticEntry
+ * Helper function to create static entries
+ * This helps keep the catalog registration clean
+ */
+export const createStaticEntry = <TFrameworkComponentType = any>(
+  key: string,
+  component: TFrameworkComponentType,
+): [string, IDynamicWidgetCatalogEntryBase] => {
+  const meta = getDefaultWidgetMetaFromKey(key)
+  return [
+    key,
+    {
+      key,
+      title: meta.displayName,
+      isContainer: `${key}`.includes('Container'),
+      meta,
+      component,
+    },
+  ]
+}
+/**
+ * @name createDynamicEntry
+ * Helper function to create dynamic entries
+ * This helps keep the catalog registration clean
+ */
+export const createDynamicEntry = (
+  key: string,
+  loader: TWidgetFactoryBase,
+  meta: TWidgetMetaInfoBase,
+): [string, IDynamicWidgetCatalogEntryBase] => {
+  return [
+    key,
+    {
+      key,
+      title: meta.displayName,
+      isContainer: false,
+      meta,
+      loader,
+    },
+  ]
+}
+
+// Helper function to derive key and title from the widget file path
+export const parseKeyAndTitleFromFilePath = (
+  path: string,
+): { key: TDashboardWidgetKey; title: string; folder: string } | null => {
+  const match = path.match(/\/widget-([a-zA-Z0-9-]+)\/index\.ts$/)
+  if (match && match[1]) {
+    const folderName = match[1]
+    const key = `Widget${folderName
+      .split('-')
+      .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
+      .join('')}` as TDashboardWidgetKey
+    const title = folderName
+      .split('-')
+      .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
+      .join(' ')
+    return { key, title, folder: folderName }
+  }
+  return null
+}
+
+export const remoteWidgetDiscovery = async (
+  manifestUrl: string,
+): Promise<{
+  entries: [string, IDynamicWidgetCatalogEntryBase][]
+  message: string
+  details: string
+}> => {
+  return new Promise(async (resolve, reject) => {
+    const catalogMapEntries: [string, IDynamicWidgetCatalogEntryBase][] = []
+    try {
+      // 1. Fetch the manifest from your Bucket/CDN
+      const response = await fetch(`${manifestUrl}?${Math.random()}`)
+      const remoteManifest: Record<string, TManifestEntry> = await response.json()
+
+      for (const key in remoteManifest) {
+        const remote = remoteManifest[key]
+
+        // 2. Define the loader using native ESM import
+        // Vite will ignore this URL and let the browser handle it at runtime
+        const remoteLoader: TWidgetFactoryBase = () => import(/* @vite-ignore */ remote.url)
+
+        // 3. Construct the meta object (ensure it matches TWidgetMetaInfo)
+        const remoteMeta: TWidgetMetaInfoBase = {
+          displayName: remote.meta.displayName,
+          description: remote.meta.description || 'Remote Plugin',
+          categories: remote.meta.categories || ['Widget'],
+          noDuplicatedWidgets: remote.meta.noDuplicatedWidgets ?? true,
+          icon: undefined, // Or a logic to map a string name to a Lucide component
+        }
+
+        // 4. USE YOUR HELPER!
+        // This ensures the remote widget is structured exactly like a local one
+        catalogMapEntries.push(createDynamicEntry(key, remoteLoader, remoteMeta))
+      }
+      resolve({
+        entries: catalogMapEntries,
+        message: '',
+        details: '',
+      })
+    } catch (err) {
+      console.error('Remote plugin discovery failed:', err)
+      reject({
+        entries: [],
+        message: 'Remote plugin discovery failed:',
+        details: (typeof err === 'object' ? JSON.stringify(err) : err) as any,
+      })
+    }
+  })
 }

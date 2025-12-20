@@ -84,7 +84,10 @@ export type TWidgetFactoryBase<TFrameworkComponent = any> = () => Promise<{
  * TFrameworkElementType: see TWidgetMetaInfoBase
  * TFrameworkComponentType: i.e. React.ComponentType<any> (see TWidgetFactoryBase)
  */
-export interface IDynamicWidgetCatalogEntryBase<TFrameworkElementType, TFrameworkComponentType> {
+export interface IDynamicWidgetCatalogEntryBase<
+  TFrameworkElementType = any,
+  TFrameworkComponentType = any,
+> {
   // A unique identifier used in the saved configuration JSON
   key: TDashboardWidgetKey
   title: string
@@ -116,3 +119,8 @@ export type TGetDefaultWidgetMetaFromKey = (
   options?: TGetDefaultWidgetMetaFromKeyOptions,
 ) => TWidgetMetaInfoBase<any>
 /* end */
+
+export type TManifestEntry = {
+  url: string
+  meta: TWidgetMetaInfoBase
+}
