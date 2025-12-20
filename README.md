@@ -22,37 +22,13 @@ pnpm add @tenorlab/react-dashboard
 ```
 
 ## Basic Usage
-Tenorlab provides a modular approach to dashboard construction. Here is how to implement a basic grid-based dashboard:
-```typescript
-import React from 'react'
-import { DashboardProvider, DashboardGrid, Widget } from '@tenorlab/react-dashboard'
-
-const MyDashboard = () => {
-  return (
-    <DashboardProvider>
-      <DashboardGrid columns={12} gap={16}>
-        <Widget id="revenue-chart" title="Revenue Overview">
-          {/* Your Chart Component Here */}
-          <div>Chart Content</div>
-        </Widget>
-        
-        <Widget id="active-users" title="Live Users">
-          <div>4,281</div>
-        </Widget>
-      </DashboardGrid>
-    </DashboardProvider>
-  )
-}
-
-export default MyDashboard
-```
-
+TODO
 
 
 ## Features
 
 - **Type-Safe:** Built with TypeScript for excellent IDE support and error catching.
-- **Configurable:** Allow end-users to resize, drag, and drop widgets.
+- **Configurable:** Allow end-users to add/remove widgets.
 - **Vite Optimized:** Tree-shakeable and lightweight for modern build pipelines.
 - **Themeable:** Easy integration with Tailwind CSS or CSS Variables.
 
