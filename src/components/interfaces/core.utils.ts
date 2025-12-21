@@ -246,28 +246,20 @@ export const parseKeyAndTitleFromFilePath = (
 
 export const getMetaInfoFromFile = (
   metaModules: Record<string, Record<string, TWidgetMetaInfoBase>>,
-  baseSrcPath: string, // i.e. '/src/plugins' or '/src/static-widgets'
-  folderName: string, // i.e. widget-outstanding-balance
-  key: string,
+  baseSrcPath: string, // e.g. '/src/plugins' or '/src/static-widgets'
+  folderName: string, // e.g. 'gold-prices' (derived from folder)
+  key: string, // e.g. 'WidgetGoldPrices'
 ): TWidgetMetaInfoBase | undefined => {
   // The path to the meta file should be: /src/widgets/widget-folder/widget-folder.meta.ts
   const metaLookupPath = `${baseSrcPath}/${folderName}/${folderName}.meta.ts`
   // The eagerly loaded module is stored in metaModules[path]
   const metaModule = metaModules[metaLookupPath]
-  // 3. Determine the final metadata: Use the specific named export from the meta file,
-  // or fall back to the dynamic default/static lookup.
-  // let finalMeta: TWidgetMetaInfo
-  // if (metaModule && metaModule[`${key}Meta`]) {
-  //   // Found the synchronous meta data exported as WidgetForexRatesMeta, etc.
-  //   return metaModule[`${key}Meta`]
-  // }
-
-  // Look for the named export: e.g. WidgetGoldPricesMeta
+  // Determine the final metadata: Use the specific named export from the meta file,
+  // Look for the named export (e.g. WidgetGoldPricesMeta)
   const namedExport = `${key}Meta`
   if (metaModule && metaModule[namedExport]) {
     return metaModule[namedExport]
   }
-
   return undefined
 }
 
