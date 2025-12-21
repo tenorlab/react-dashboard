@@ -251,7 +251,7 @@ export const getMetaInfoFromFile = (
   key: string, // e.g. 'WidgetGoldPrices'
 ): TWidgetMetaInfoBase | undefined => {
   // The path to the meta file should be: /src/widgets/widget-folder/widget-folder.meta.ts
-  const metaLookupPath = `${baseSrcPath}/${folderName}/${folderName}.meta.ts`
+  const metaLookupPath = `${baseSrcPath}/widget-${folderName}/widget-${folderName}.meta.ts`
   // The eagerly loaded module is stored in metaModules[path]
   const metaModule = metaModules[metaLookupPath]
   // Determine the final metadata: Use the specific named export from the meta file,
