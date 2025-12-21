@@ -17,7 +17,7 @@ html {
 
   --bwj-dashboard-debug-container-flex-row: none; /* solid 1px pink; */
   --bwj-dashboard-debug-container-flex-column: none; /* solid 1px purple */
-  --bwj-dashboard-debug-container-grid-large-inner: solid 1px lightgreen; /* solid 1px lightgreen */
+  --bwj-dashboard-debug-container-grid-large-inner: none; /* solid 1px lightgreen */
 
   /* Grid Styles */
   .dashboard-main-grid {

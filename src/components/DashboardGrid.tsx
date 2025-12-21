@@ -35,8 +35,7 @@ export const DashboardGrid = forwardRef<HTMLDivElement, IDashboardGridProps>((pr
     `dashboard-main-grid w-full`,
     isEditing ? 'editing' : '',
     responsiveGrid ? 'responsive-grid' : '',
-    //`border border-dashed ${isEditing ? 'border-primary border-opacity-50' : 'border-transparent'}`,
-    `border border-solid border-primary`,
+    `border border-dashed ${isEditing ? 'border-primary border-opacity-50' : 'border-transparent'}`,
   )
 
   return (
