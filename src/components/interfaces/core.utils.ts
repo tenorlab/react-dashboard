@@ -244,6 +244,65 @@ export const parseKeyAndTitleFromFilePath = (
   return null
 }
 
+export const getMetaInfoFromFile = (
+  metaModules: Record<string, Record<string, TWidgetMetaInfoBase>>,
+  baseSrcPath: string, // i.e. '/src/plugins' or '/src/static-widgets'
+  folderName: string, // i.e. widget-outstanding-balance
+): TWidgetMetaInfoBase | undefined => {
+  // The path to the meta file should be: /src/widgets/widget-folder/widget-folder.meta.ts
+  const metaLookupPath = `${baseSrcPath}/${folderName}/${folderName}.meta.ts`
+  // The eagerly loaded module is stored in metaModules[path]
+  const metaModule = metaModules[metaLookupPath]
+  // 3. Determine the final metadata: Use the specific named export from the meta file,
+  // or fall back to the dynamic default/static lookup.
+  // let finalMeta: TWidgetMetaInfo
+  // @ts-ignore
+  if (metaModule && metaModule[`${key}Meta`]) {
+    // Found the synchronous meta data exported as WidgetForexRatesMeta, etc.
+    // @ts-ignore
+    return metaModule[`${key}Meta`]
+  }
+
+  return undefined
+}
+
+export const localWidgetDiscovery = async (
+  baseSrcPath: string, // i.e. "/src/static-widgets
+  widgetModules: Record<string, TWidgetFactoryBase>,
+  widgetMetaModules: Record<string, Record<string, TWidgetMetaInfoBase>>,
+) => {
+  // Dynamic Widget discovery
+  const catalogMapEntries: [string, IDynamicWidgetCatalogEntryBase][] = []
+  for (const loaderPath in widgetModules) {
+    const loader = widgetModules[loaderPath]
+    const pathData = parseKeyAndTitleFromFilePath(loaderPath)
+
+    if (pathData && loader) {
+      const { key, title, folder } = pathData
+      console.log('widgets-catalog: registering dynamic plugins', key, title, folder)
+
+      let widgetMeta = getMetaInfoFromFile(
+        //key,
+        widgetMetaModules,
+        baseSrcPath,
+        folder,
+      )
+      if (!widgetMeta) {
+        // default metadata (computed from key)
+        widgetMeta = getDefaultWidgetMetaFromKey(key, {
+          title,
+          description: `Dynamic plugin widget`,
+        })
+      }
+
+      // 4. Register the final entry
+      catalogMapEntries.push(createDynamicEntry(key, loader, widgetMeta))
+    }
+  }
+
+  return catalogMapEntries
+}
+
 export const remoteWidgetDiscovery = async (
   manifestUrl: string,
 ): Promise<{
