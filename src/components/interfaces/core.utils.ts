@@ -248,6 +248,7 @@ export const getMetaInfoFromFile = (
   metaModules: Record<string, Record<string, TWidgetMetaInfoBase>>,
   baseSrcPath: string, // i.e. '/src/plugins' or '/src/static-widgets'
   folderName: string, // i.e. widget-outstanding-balance
+  key: string,
 ): TWidgetMetaInfoBase | undefined => {
   // The path to the meta file should be: /src/widgets/widget-folder/widget-folder.meta.ts
   const metaLookupPath = `${baseSrcPath}/${folderName}/${folderName}.meta.ts`
@@ -256,51 +257,18 @@ export const getMetaInfoFromFile = (
   // 3. Determine the final metadata: Use the specific named export from the meta file,
   // or fall back to the dynamic default/static lookup.
   // let finalMeta: TWidgetMetaInfo
-  // @ts-ignore
-  if (metaModule && metaModule[`${key}Meta`]) {
-    // Found the synchronous meta data exported as WidgetForexRatesMeta, etc.
-    // @ts-ignore
-    return metaModule[`${key}Meta`]
+  // if (metaModule && metaModule[`${key}Meta`]) {
+  //   // Found the synchronous meta data exported as WidgetForexRatesMeta, etc.
+  //   return metaModule[`${key}Meta`]
+  // }
+
+  // Look for the named export: e.g. WidgetGoldPricesMeta
+  const namedExport = `${key}Meta`
+  if (metaModule && metaModule[namedExport]) {
+    return metaModule[namedExport]
   }
 
   return undefined
-}
-
-export const localWidgetDiscovery = async (
-  baseSrcPath: string, // i.e. "/src/static-widgets
-  widgetModules: Record<string, TWidgetFactoryBase>,
-  widgetMetaModules: Record<string, Record<string, TWidgetMetaInfoBase>>,
-) => {
-  // Dynamic Widget discovery
-  const catalogMapEntries: [string, IDynamicWidgetCatalogEntryBase][] = []
-  for (const loaderPath in widgetModules) {
-    const loader = widgetModules[loaderPath]
-    const pathData = parseKeyAndTitleFromFilePath(loaderPath)
-
-    if (pathData && loader) {
-      const { key, title, folder } = pathData
-      console.log('widgets-catalog: registering dynamic plugins', key, title, folder)
-
-      let widgetMeta = getMetaInfoFromFile(
-        //key,
-        widgetMetaModules,
-        baseSrcPath,
-        folder,
-      )
-      if (!widgetMeta) {
-        // default metadata (computed from key)
-        widgetMeta = getDefaultWidgetMetaFromKey(key, {
-          title,
-          description: `Dynamic plugin widget`,
-        })
-      }
-
-      // 4. Register the final entry
-      catalogMapEntries.push(createDynamicEntry(key, loader, widgetMeta))
-    }
-  }
-
-  return catalogMapEntries
 }
 
 export const remoteWidgetDiscovery = async (
@@ -351,4 +319,51 @@ export const remoteWidgetDiscovery = async (
       })
     }
   })
+}
+
+/**
+ * @name localWidgetDiscovery
+ * @description Scans local directories for widgets.
+ * If lazy is true, it registers loaders. If false, it registers static components.
+ */
+export const localWidgetDiscovery = (
+  baseSrcPath: string,
+  widgetModules: Record<string, any>,
+  widgetMetaModules: Record<string, any>,
+  lazy: boolean = true,
+): [string, IDynamicWidgetCatalogEntryBase][] => {
+  const catalogMapEntries: [string, IDynamicWidgetCatalogEntryBase][] = []
+
+  for (const path in widgetModules) {
+    const moduleOrLoader = widgetModules[path]
+    const pathData = parseKeyAndTitleFromFilePath(path)
+
+    if (pathData && moduleOrLoader) {
+      const { key, title, folder } = pathData
+
+      // 1. Resolve Metadata
+      let widgetMeta = getMetaInfoFromFile(widgetMetaModules, baseSrcPath, folder, key)
+
+      if (!widgetMeta) {
+        widgetMeta = getDefaultWidgetMetaFromKey(key, {
+          title,
+          description: `Local ${lazy ? 'dynamic' : 'static'} widget`,
+        })
+      }
+
+      // 2. Register Entry based on lazy preference
+      if (lazy) {
+        // In lazy mode, moduleOrLoader is () => import(...)
+        const loader = moduleOrLoader as TWidgetFactoryBase
+        catalogMapEntries.push(createDynamicEntry(key, loader, widgetMeta))
+      } else {
+        // In non-lazy mode, moduleOrLoader is the module object itself { default: Component }
+        // We must extract the .default export for createStaticEntry
+        const component = moduleOrLoader.default || moduleOrLoader
+        catalogMapEntries.push(createStaticEntry(key, component, widgetMeta))
+      }
+    }
+  }
+
+  return catalogMapEntries
 }
