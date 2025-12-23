@@ -61,7 +61,6 @@ function WidgetListItem({
 
   const onExternalsClicked = (ev: any) => {
     ev.stopPropagation()
-    ev.stopImmediatePropagation()
     ev.preventDefault()
     setShowExternals(!showExternals)
   }
