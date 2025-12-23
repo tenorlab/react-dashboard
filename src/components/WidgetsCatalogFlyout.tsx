@@ -75,7 +75,7 @@ function WidgetListItem({
         </div>
         <div className="flex flex-col text-xs">
           <div>{description}</div>
-          <div className="mt-3" onClick={onExternalsClicked}>
+          <div className="mt-3 cursor-pointer" onClick={onExternalsClicked}>
             Externals:
           </div>
           {showExternals && (
