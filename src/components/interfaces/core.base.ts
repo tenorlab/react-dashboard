@@ -11,6 +11,7 @@ export type TWidgetMetaInfoBase<TFrameworkElementType = any> = {
   categories: TWidgetCategory[]
   noDuplicatedWidgets?: boolean // if true, we do not allow to add the same widget twice
   icon: TFrameworkElementType | undefined
+  externalDependencies: string[] // list of external dependencies (e.g., ['react@19.2.3', '@tenorlab/react-dashboard@1.1.3'])
 }
 
 export interface IDashboardGridPropsBase {
@@ -54,28 +55,6 @@ export type TWidgetFactoryBase<TFrameworkComponent = any> = () => Promise<{
   default: TFrameworkComponent
 }>
 
-/**
- * 2. Define the flexible Catalog Entry
- * Definition of a single widget or container in the catalog.
- * It must have EITHER a direct 'component' reference OR a 'loader' function.
- *
- * TWidgetMetaInfo: see TWidgetMetaInfoBase
- * TWidgetFactory: see TWidgetFactoryBase
- * TComponent: i.e. React.ComponentType<any>
- */
-// export interface IDynamicWidgetCatalogEntryBase<TMeta, TFactory, TComponent> {
-//   // A unique identifier used in the saved configuration JSON
-//   key: TDashboardWidgetKey
-//   title: string
-//   isContainer?: boolean
-//   meta?: TMeta // i.e. TWidgetMetaInfo
-
-//   // OPTIONAL Property A: The direct React component reference (for static, core widgets)
-//   component?: TComponent
-
-//   // OPTIONAL Property B: The function to asynchronously load the component (for dynamic plugins)
-//   loader?: TFactory // i.e. TWidgetFactory
-// }
 /**
  * 2. Define the flexible Catalog Entry
  * Definition of a single widget or container in the catalog.

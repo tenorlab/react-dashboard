@@ -37,11 +37,7 @@ export interface IDashboardWidget extends JSX.Element {}
 
 export type TWidgetFactory = TWidgetFactoryBase<TFrameworkComponentType>
 
-// export interface IDynamicWidgetCatalogEntry extends IDynamicWidgetCatalogEntryBase<
-//   TWidgetMetaInfo,
-//   TWidgetFactory,
-//   TFrameworkComponentType
-// > {}
+// a single entry in the widget catalog
 export interface IDynamicWidgetCatalogEntry extends IDynamicWidgetCatalogEntryBase<
   TFrameworkElementType,
   TFrameworkComponentType
@@ -50,7 +46,6 @@ export interface IDynamicWidgetCatalogEntry extends IDynamicWidgetCatalogEntryBa
 // Abstract Catalog Type:
 // It is a Map where the keys are TDashboardWidgetKey
 // and the values are TDashboardWidgetFn functions that accept props with key TDashboardWidgetKey.
-//export type TDashboardWidgetCatalog = Map<TDashboardWidgetKey, IDynamicWidgetCatalogEntry>
 export type TDashboardWidgetCatalog = TDashboardWidgetCatalogBase<
   TFrameworkElementType,
   TFrameworkComponentType

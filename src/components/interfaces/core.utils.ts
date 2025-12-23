@@ -138,6 +138,7 @@ export const getDefaultWidgetMetaFromKey: TGetDefaultWidgetMetaFromKey = (
     categories,
     noDuplicatedWidgets: true,
     icon: undefined,
+    externalDependencies: [],
   }
 }
 
@@ -291,6 +292,7 @@ export const remoteWidgetDiscovery = async (
           categories: remote.meta.categories || ['Widget'],
           noDuplicatedWidgets: remote.meta.noDuplicatedWidgets ?? true,
           icon: undefined, // Or a logic to map a string name to a Lucide component
+          externalDependencies: remote.meta.externalDependencies || [],
         }
 
         // 4. USE YOUR HELPER!

@@ -68,6 +68,14 @@ function WidgetListItem({
         </div>
         <div className="flex flex-col gap-2 text-xs">
           <div>{description}</div>
+          <details>
+            <summary>Externals</summary>
+            <div className="ml-2 flex flex-col gap-1 text-xs">
+              {metaData.externalDependencies.map((dep, i) => (
+                <div key={i}>{dep}</div>
+              ))}
+            </div>
+          </details>
         </div>
       </div>
     </div>
