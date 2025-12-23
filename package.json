@@ -23,7 +23,7 @@
     "pub": "npm run build; npm publish --access public --otp=",
     "test": "TESTING=true vitest run",
     "test-watch": "TESTING=true vitest watch",
-    "pretty": "prettier -w \"./src/**/*.ts*\"",
+    "pretty": "npx prettier -w \"./src/**/*.ts*\"",
     "version-patch": "npm run pretty && npm version patch -m \"Patch version\"",
     "preversion": "npm run test",
     "version": "npm run build",

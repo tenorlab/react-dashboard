@@ -38,7 +38,7 @@ export const _isVersionCompatible = (hostVer: string, widgetVer: string): boolea
 
   // Basic check: If Major is different, incompatible.
   if (h[0] !== w[0]) return false
-  
+
   // If Host Minor is less than Widget Minor, might be missing features
   if (h[1] < w[1]) return false
 
@@ -107,53 +107,50 @@ export function DynamicWidgetLoader({
   } else if (widgetCatalogEntry.loader) {
     // // B. Found a DYNAMIC loader (e.g., TotalOrders Plugin)
     // // Memoize the lazy component creation to prevent unnecessary re-runs.
-    // WidgetToRender = useMemo(
-    //   () => React.lazy(widgetCatalogEntry.loader!),
-    //   [widgetCatalogEntry.loader],
-    // )
     requiresSuspense = true
     WidgetToRender = useMemo(() => {
       if (!widgetCatalogEntry) return null
 
-      // // --- VERSION CHECK LOGIC ---
-      // const externalDeps = widgetCatalogEntry.meta?.externalDependencies || []
-      // const reactRequirement = externalDeps.find(d => d.startsWith('react@'))
+      // --- VERSION CHECK LOGIC ---
+      // 1. Get host version from the injected define
+      // prettier-ignore
+      /* @ts-ignore */
+      const hostVer = typeof __HOST_REACT_VERSION__ !== 'undefined' ? __HOST_REACT_VERSION__ : '19.2.3'
+      // 2. Parse the externalDependencies
+      const externalDependencies = widgetCatalogEntry.meta?.externalDependencies || []
+      const reactReq = externalDependencies.find((d) => d.startsWith('react@'))
+      if (reactReq) {
+        const requiredVer = reactReq.split('@')[1]
 
-      // if (reactRequirement) {
-      //   const requiredVer = reactRequirement.split('@')[1]
-      //   const hostVer = (pkg as any).dependencies?.react || '19.2.3'
-
-      //   if (!_isVersionCompatible(hostVer, requiredVer)) {
-      //     return {
-      //       default: () => (
-      //         <DashboardWidgetBase {...baseProps}>
-      //           <div className="p-4 border border-dashed border-danger">
-      //             <p className="font-bold">Failed to load "{widgetKey}"</p>
-      //             <p className="text-xs italic">
-      //               The remote plugin is unavailable or incompatible.
-      //               <p className="font-bold text-sm">Version Mismatch: {widgetKey}</p>
-      //               <p className="text-xs">
-      //                 Widget requires <strong>React {requiredVer}</strong>. 
-      //                 Host is running <strong>{hostVer}</strong>.
-      //               </p>
-      //             </p>
-      //             <div className="flex flex-col mt-3">
-      //               <h5>
-      //                 Externals:
-      //               </h5>
-      //               <dl className="ml-2 flex flex-col text-xs">
-      //                 {externalDeps.map((dep, i) => (
-      //                   <dd key={i}>- {dep}</dd>
-      //                 ))}
-      //               </dl>
-      //             </div>
-      //           </div>
-      //         </DashboardWidgetBase>
-      //       )
-      //     }
-      //   }
-      // }
-      // // --- END VERSION CHECK ---
+        if (!_isVersionCompatible(hostVer, requiredVer)) {
+          return React.lazy(async () => ({
+            default: () => (
+              <DashboardWidgetBase {...baseProps}>
+                <div className="p-4 border border-dashed border-danger">
+                  <p className="font-bold">Failed to load "{widgetKey}"</p>
+                  <p className="text-xs italic">
+                    The remote plugin is unavailable or incompatible.
+                    <p className="font-bold text-sm">Version Mismatch: {widgetKey}</p>
+                    <p className="text-xs">
+                      Widget requires <strong>React {requiredVer}</strong>. Host is running{' '}
+                      <strong>{hostVer}</strong>.
+                    </p>
+                  </p>
+                  <div className="flex flex-col mt-3">
+                    <h5>Externals:</h5>
+                    <dl className="ml-2 flex flex-col text-xs">
+                      {externalDependencies.map((dep, i) => (
+                        <dd key={i}>- {dep}</dd>
+                      ))}
+                    </dl>
+                  </div>
+                </div>
+              </DashboardWidgetBase>
+            ),
+          }))
+        }
+      }
+      // --- END VERSION CHECK ---
 
       if (widgetCatalogEntry.component) {
         return widgetCatalogEntry.component
