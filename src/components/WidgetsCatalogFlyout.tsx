@@ -36,6 +36,7 @@ function WidgetListItem({
   alreadyAdded: boolean
   addWidget: () => void
 }) {
+  const [showExternals, setShowExternals] = useState(false)
   const OptionIconComponent = metaData.icon || UnknownWidgetIcon
   const displayName = metaData.displayName || 'Unknown'
   const description = metaData.description || '---'
@@ -58,6 +59,13 @@ function WidgetListItem({
     addWidget()
   }
 
+  const onExternalsClicked = (ev: any) => {
+    ev.stopPropagation()
+    ev.stopImmediatePropagation()
+    ev.preventDefault()
+    setShowExternals(!showExternals)
+  }
+
   return (
     <div className={className} style={{ width: 'calc(100% - 1rem)' }} onClick={onClicked}>
       <OptionIconComponent className="" />
@@ -66,16 +74,18 @@ function WidgetListItem({
           <span className="font-bold">{displayName}</span>
           <div className="text-xs">{addNotAllowed ? '(Added)' : ''}</div>
         </div>
-        <div className="flex flex-col gap-2 text-xs">
+        <div className="flex flex-col text-xs">
           <div>{description}</div>
-          <details>
-            <summary>Externals</summary>
-            <div className="ml-2 flex flex-col gap-1 text-xs">
+          <div className="mt-3" onClick={onExternalsClicked}>
+            Externals:
+          </div>
+          {showExternals && (
+            <dl className="ml-2 flex flex-col text-xs">
               {metaData.externalDependencies.map((dep, i) => (
-                <div key={i}>{dep}</div>
+                <dd key={i}>- {dep}</dd>
               ))}
-            </div>
-          </details>
+            </dl>
+          )}
         </div>
       </div>
     </div>
