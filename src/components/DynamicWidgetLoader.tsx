@@ -26,6 +26,25 @@ type TDynamicWidgetLoaderProps = {
   selectContainer?: (containerKey: TDashboardWidgetKey) => void
 }
 
+/**
+ * Compares two version strings (e.g., "19.2.0" and "19.2.3")
+ * Returns true if the widget version is compatible with the host.
+ * Logic: Host must be >= Widget version for major/minor.
+ */
+export const _isVersionCompatible = (hostVer: string, widgetVer: string): boolean => {
+  const clean = (v: string) => v.replace(/[^0-9.]/g, '')
+  const h = clean(hostVer).split('.').map(Number)
+  const w = clean(widgetVer).split('.').map(Number)
+
+  // Basic check: If Major is different, incompatible.
+  if (h[0] !== w[0]) return false
+  
+  // If Host Minor is less than Widget Minor, might be missing features
+  if (h[1] < w[1]) return false
+
+  return true
+}
+
 function SpinnerComponent(props: { title: string }) {
   return (
     <div className="dashboard-widget">
@@ -95,6 +114,46 @@ export function DynamicWidgetLoader({
     requiresSuspense = true
     WidgetToRender = useMemo(() => {
       if (!widgetCatalogEntry) return null
+
+      // // --- VERSION CHECK LOGIC ---
+      // const externalDeps = widgetCatalogEntry.meta?.externalDependencies || []
+      // const reactRequirement = externalDeps.find(d => d.startsWith('react@'))
+
+      // if (reactRequirement) {
+      //   const requiredVer = reactRequirement.split('@')[1]
+      //   const hostVer = (pkg as any).dependencies?.react || '19.2.3'
+
+      //   if (!_isVersionCompatible(hostVer, requiredVer)) {
+      //     return {
+      //       default: () => (
+      //         <DashboardWidgetBase {...baseProps}>
+      //           <div className="p-4 border border-dashed border-danger">
+      //             <p className="font-bold">Failed to load "{widgetKey}"</p>
+      //             <p className="text-xs italic">
+      //               The remote plugin is unavailable or incompatible.
+      //               <p className="font-bold text-sm">Version Mismatch: {widgetKey}</p>
+      //               <p className="text-xs">
+      //                 Widget requires <strong>React {requiredVer}</strong>. 
+      //                 Host is running <strong>{hostVer}</strong>.
+      //               </p>
+      //             </p>
+      //             <div className="flex flex-col mt-3">
+      //               <h5>
+      //                 Externals:
+      //               </h5>
+      //               <dl className="ml-2 flex flex-col text-xs">
+      //                 {externalDeps.map((dep, i) => (
+      //                   <dd key={i}>- {dep}</dd>
+      //                 ))}
+      //               </dl>
+      //             </div>
+      //           </div>
+      //         </DashboardWidgetBase>
+      //       )
+      //     }
+      //   }
+      // }
+      // // --- END VERSION CHECK ---
 
       if (widgetCatalogEntry.component) {
         return widgetCatalogEntry.component
