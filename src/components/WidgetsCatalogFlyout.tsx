@@ -25,17 +25,19 @@ import type {
   TWidgetMetaInfoBase,
 } from './interfaces/'
 
+type TWidgetListItemProps = {
+  widgetKey: TDashboardWidgetKey
+  metaData: TWidgetMetaInfoBase
+  alreadyAdded: boolean
+  addWidget: () => void
+}
+
 function WidgetListItem({
   // widgetKey,
   metaData,
   alreadyAdded,
   addWidget,
-}: {
-  widgetKey: TDashboardWidgetKey
-  metaData: TWidgetMetaInfoBase
-  alreadyAdded: boolean
-  addWidget: () => void
-}) {
+}: TWidgetListItemProps) {
   const [showExternals, setShowExternals] = useState(false)
   const OptionIconComponent = metaData.icon || UnknownWidgetIcon
   const displayName = metaData.name || 'Unknown'
@@ -91,13 +93,12 @@ function WidgetListItem({
   )
 }
 
-function SettingListItem({
-  item,
-  onSettingItemChanged,
-}: {
+type TSettingListItemProps = {
   item: IDashboardSettingEntry
   onSettingItemChanged: (item: IDashboardSettingEntry) => any
-}) {
+}
+
+function SettingListItem({ item, onSettingItemChanged }: TSettingListItemProps) {
   // const OptionIconComponent = item.icon
   const displayName = item.name || 'Unknown'
   const description = item.description || '---'
@@ -182,24 +183,22 @@ const isWidgetAlreadyAdded = (
   return allExistingWidgets.includes(widgetKey)
 }
 
-export function WidgetsCatalogFlyout({
-  targetContainerKey,
-  widgetsCatalog,
-  currentDashboardConfig,
-  undoStatus,
-  addWidget,
-  addContainer,
-  onSettingItemsUpdated,
-  onResetToDefaultDashboardClick,
-  onUndoOrRedo,
-  onDoneClick,
-}: TWidgetsCatalogFlyoutProps) {
+export function WidgetsCatalogFlyout(props: TWidgetsCatalogFlyoutProps) {
+  const {
+    currentDashboardConfig,
+    undoStatus,
+    addContainer,
+    onResetToDefaultDashboardClick,
+    onUndoOrRedo,
+    onDoneClick,
+  } = props
+
   const [title, setTitle] = useState('Editing')
   const [tabValue, setTabValue] = useState(0)
   const [searchText, setSearchText] = useState('')
 
   // Get the array of available widget keys from the Map
-  const widgetKeys: TDashboardWidgetKey[] = Array.from(widgetsCatalog.keys())
+  const widgetKeys: TDashboardWidgetKey[] = Array.from(props.widgetsCatalog.keys())
 
   // Filter out the container and map the remaining keys to their metadata
   const widgetsWithMeta: {
@@ -207,8 +206,10 @@ export function WidgetsCatalogFlyout({
     metaData: TWidgetMetaInfoBase
   }[] = widgetKeys.map((widgetKey) => ({
     widgetKey,
-    metaData: getWidgetMetaFromCatalog(widgetKey, widgetsCatalog),
+    metaData: getWidgetMetaFromCatalog(widgetKey, props.widgetsCatalog),
   }))
+
+  const isTargetingContainer = !!props.targetContainerKey
 
   // const handleTabChange = (event: React.ChangeEvent<any>, newValue: number) => {
   //   setTabValue(newValue)
@@ -247,41 +248,40 @@ export function WidgetsCatalogFlyout({
     )
   }
 
-  const isTargetingContainer = !!targetContainerKey
-  useEffect(() => {
-    if (!!targetContainerKey) {
-      setTabValue(0)
-      const containerTitle = parseContainerTitle(targetContainerKey)
-      setTitle(`Editing ${containerTitle}`)
-    } else {
-      setTitle('Editing Dashboard')
-    }
-  }, [targetContainerKey])
-
   const onAddWidgetClick = (widgetKey: TDashboardWidgetKey) => {
     if (!isTargetingContainer) {
       // targeting dashboard
-      addWidget(widgetKey)
+      props.addWidget(widgetKey)
     } else {
       // targeting container
-      addWidget(widgetKey, targetContainerKey)
+      props.addWidget(widgetKey, props.targetContainerKey)
     }
   }
 
   const onSettingItemChanged = (item: IDashboardSettingEntry) => {
-    const updatedItems = (currentDashboardConfig.cssSettings || []).map((existingItem) => {
+    const updatedItems = (props.currentDashboardConfig.cssSettings || []).map((existingItem) => {
       if (existingItem.key === item.key) {
         return item
       }
       return existingItem
     })
-    onSettingItemsUpdated(updatedItems)
+    props.onSettingItemsUpdated(updatedItems)
   }
 
   const [isDragging, setIsDragging] = useState(false)
-  const onDraggingChange = (isDragging: boolean) => {
-    setIsDragging(isDragging)
+  const onDraggingChange = (value: boolean) => {
+    setIsDragging(value)
   }
+
+  useEffect(() => {
+    if (!!props.targetContainerKey) {
+      setTabValue(0)
+      const containerTitle = parseContainerTitle(props.targetContainerKey)
+      setTitle(`Editing ${containerTitle}`)
+    } else {
+      setTitle('Editing Dashboard')
+    }
+  }, [props.targetContainerKey])
 
   return (
     <DraggablePanel

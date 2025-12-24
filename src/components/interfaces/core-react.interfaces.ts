@@ -1,5 +1,4 @@
 // file: src/components/interfaces/core-react.interfaces.ts
-import type { ReactNode, JSX } from 'react'
 import type {
   TDashboardWidgetKey,
   TWidgetMetaInfoBase,
@@ -9,6 +8,7 @@ import type {
   IDynamicWidgetCatalogEntryBase,
   TDashboardWidgetCatalogBase,
 } from './core.base'
+import type { ReactNode, JSX } from 'react'
 
 // framework specific component type and element type
 type TFrameworkComponentType = React.ComponentType<any>
