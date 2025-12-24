@@ -226,22 +226,62 @@ export const createDynamicEntry = (
 }
 
 // Helper function to derive key and title from the widget file path
+// export const parseKeyAndTitleFromFilePath = (
+//   path: string,
+// ): { key: TDashboardWidgetKey; title: string; folder: string } | null => {
+//   const match = path.match(/\/widget-([a-zA-Z0-9-]+)\/index\.ts$/)
+//   if (match && match[1]) {
+//     const folderName = match[1]
+//     const key = `Widget${folderName
+//       .split('-')
+//       .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
+//       .join('')}` as TDashboardWidgetKey
+//     const title = folderName
+//       .split('-')
+//       .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
+//       .join(' ')
+//     return { key, title, folder: folderName }
+//   }
+//   return null
+// }
+/**
+ * Enhanced helper to derive key and title from widget file paths.
+ * Handles: 
+ * - widget-revenue-trends1 -> WidgetRevenueTrends1
+ * - widget-with-extraprops -> WidgetWithExtraprops
+ * - widget-revenue-trends-async -> WidgetRevenueTrendsAsync
+ */
 export const parseKeyAndTitleFromFilePath = (
   path: string,
 ): { key: TDashboardWidgetKey; title: string; folder: string } | null => {
-  const match = path.match(/\/widget-([a-zA-Z0-9-]+)\/index\.ts$/)
+  // 1. More flexible regex to capture everything after 'widget-' until the end of the folder
+  const match = path.match(/\/widget-([a-zA-Z0-9_-]+)\/(index|widget-.*|.*)\.ts(x?)$/)
+  
   if (match && match[1]) {
-    const folderName = match[1]
-    const key = `Widget${folderName
-      .split('-')
+    const folderName = match[1] // e.g., 'revenue-trends-async'
+    
+    // Split by hyphens or underscores to find the segments
+    const segments = folderName.split(/[-_]/)
+
+    // 2. Build the Key (PascalCase)
+    // We map segments to ensure the first letter is Upper, but we preserve 
+    // trailing numbers (e.g., 'trends1' -> 'Trends1')
+    const key = `Widget${segments
       .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
       .join('')}` as TDashboardWidgetKey
-    const title = folderName
-      .split('-')
+
+    // 3. Build the Title (Space Separated)
+    const title = segments
       .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
       .join(' ')
-    return { key, title, folder: folderName }
+
+    return { 
+      key, 
+      title, 
+      folder: folderName 
+    }
   }
+  
   return null
 }
 
