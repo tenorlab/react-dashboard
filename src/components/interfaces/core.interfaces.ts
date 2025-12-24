@@ -9,7 +9,7 @@ export interface IChildWidgetConfigEntry {
 
 export interface IDashboardSettingEntry {
   key: string
-  displayName: string
+  name: string
   description: string
   cssProperty: string
   step: number

@@ -133,7 +133,7 @@ export const getDefaultWidgetMetaFromKey: TGetDefaultWidgetMetaFromKey = (
   const description = options?.description || (isContainer ? 'Container' : 'Unknown')
   return {
     title,
-    displayName: widgetKey,
+    name: widgetKey,
     description,
     categories,
     noDuplicatedWidgets: true,
@@ -195,7 +195,7 @@ export const createStaticEntry = <TFrameworkComponentType = any>(
     key,
     {
       key,
-      title: meta.displayName,
+      title: meta.name,
       isContainer: `${key}`.includes('Container'),
       meta,
       component,
@@ -217,7 +217,7 @@ export const createDynamicEntry = (
     key,
     {
       key,
-      title: meta.displayName,
+      title: meta.name,
       isContainer: false,
       meta,
       loader,
@@ -340,12 +340,12 @@ export const remoteWidgetDiscovery = async (
 
         // 3. Construct the meta object (ensure it matches TWidgetMetaInfo)
         const remoteMeta: TWidgetMetaInfoBase = {
-          displayName: remote.meta.displayName,
-          description: remote.meta.description || 'Remote Plugin',
-          categories: remote.meta.categories || ['Widget'],
-          noDuplicatedWidgets: remote.meta.noDuplicatedWidgets ?? true,
+          name: remote.meta?.name || 'Unknown',
+          description: remote.meta?.description || 'Remote Plugin',
+          categories: remote.meta?.categories || ['Widget'],
+          noDuplicatedWidgets: remote.meta?.noDuplicatedWidgets ?? true,
           icon: undefined, // Or a logic to map a string name to a Lucide component
-          externalDependencies: remote.meta.externalDependencies || [],
+          externalDependencies: remote.meta?.externalDependencies || [],
         }
 
         // 4. USE YOUR HELPER!

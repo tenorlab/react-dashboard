@@ -38,7 +38,7 @@ function WidgetListItem({
 }) {
   const [showExternals, setShowExternals] = useState(false)
   const OptionIconComponent = metaData.icon || UnknownWidgetIcon
-  const displayName = metaData.displayName || 'Unknown'
+  const displayName = metaData.name || 'Unknown'
   const description = metaData.description || '---'
   // const categories = metaData.categories || [];
   const noDuplicatedWidgets = metaData.noDuplicatedWidgets || false
@@ -99,7 +99,7 @@ function SettingListItem({
   onSettingItemChanged: (item: IDashboardSettingEntry) => any
 }) {
   // const OptionIconComponent = item.icon
-  const displayName = item.displayName || 'Unknown'
+  const displayName = item.name || 'Unknown'
   const description = item.description || '---'
   const className = getDistinctCssClasses(`
     flex flex-row gap-2 p-2 rounded-md border text-sm bg-card content-card backdrop-opacity-100
@@ -224,7 +224,7 @@ export function WidgetsCatalogFlyout({
       return true
     }
     return (
-      metaData.displayName.trim().toLowerCase().includes(lowerCaseText) ||
+      metaData.name.trim().toLowerCase().includes(lowerCaseText) ||
       metaData.description.toLowerCase().includes(lowerCaseText)
     )
   }
@@ -235,7 +235,7 @@ export function WidgetsCatalogFlyout({
       return true
     }
     return (
-      item.displayName.trim().toLowerCase().includes(lowerCaseText) ||
+      item.name.trim().toLowerCase().includes(lowerCaseText) ||
       item.description.toLowerCase().includes(lowerCaseText)
     )
   }

@@ -4,7 +4,7 @@ import type { IDashboardSettingEntry } from '../interfaces'
 export const cssSettingsCatalog: IDashboardSettingEntry[] = [
   {
     key: 'grid-gap',
-    displayName: 'Gap',
+    name: 'Gap',
     description: 'Set the gap between widgets in the dashboard grid',
     cssProperty: '--bwj-dashboard-gap',
     step: 0.1,
@@ -15,7 +15,7 @@ export const cssSettingsCatalog: IDashboardSettingEntry[] = [
   },
   {
     key: 'widget-width',
-    displayName: 'Widget Width',
+    name: 'Widget Width',
     description: 'Set the min width for the widgets',
     cssProperty: '--bwj-widget-width',
     step: 0.1,
@@ -26,7 +26,7 @@ export const cssSettingsCatalog: IDashboardSettingEntry[] = [
   },
   {
     key: 'widget-border-radius',
-    displayName: 'Widget Border Radius',
+    name: 'Widget Border Radius',
     description: 'Set the border radius for the widgets',
     cssProperty: '--bwj-widget-border-radius',
     step: 0.1,
@@ -37,7 +37,7 @@ export const cssSettingsCatalog: IDashboardSettingEntry[] = [
   },
   {
     key: 'widget-inner-padding-x',
-    displayName: 'Widget Horiz Padding',
+    name: 'Widget Horiz Padding',
     description: 'Set the horizontal padding for the widgets',
     cssProperty: '--bwj-widget-inner-px',
     step: 0.1,
@@ -48,7 +48,7 @@ export const cssSettingsCatalog: IDashboardSettingEntry[] = [
   },
   {
     key: 'widget-inner-padding-y',
-    displayName: 'Widget Vertical Padding',
+    name: 'Widget Vertical Padding',
     description: 'Set the vertical padding for the widgets',
     cssProperty: '--bwj-widget-inner-py',
     step: 0.1,
@@ -59,7 +59,7 @@ export const cssSettingsCatalog: IDashboardSettingEntry[] = [
   },
   {
     key: 'widget-header-padding-y',
-    displayName: 'Widget Header Vertical Padding',
+    name: 'Widget Header Vertical Padding',
     description: 'Set the vertical padding for the widget headers',
     cssProperty: '--bwj-widget-header-py',
     step: 0.1,
@@ -70,7 +70,7 @@ export const cssSettingsCatalog: IDashboardSettingEntry[] = [
   },
   {
     key: 'widget-title-font-size',
-    displayName: 'Widget Title Font Size',
+    name: 'Widget Title Font Size',
     description: 'Set the font size for the widget titles',
     cssProperty: '--bwj-widget-title-size',
     step: 0.1,

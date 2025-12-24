@@ -6,7 +6,7 @@ export type TDashboardWidgetKey = string
 export type TWidgetCategory = 'Widget' | 'Chart' | 'Container'
 
 export type TWidgetMetaInfoBase<TFrameworkElementType = any> = {
-  displayName: string
+  name: string
   description: string
   categories: TWidgetCategory[]
   noDuplicatedWidgets?: boolean // if true, we do not allow to add the same widget twice
