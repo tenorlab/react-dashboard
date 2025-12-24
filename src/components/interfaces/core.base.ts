@@ -23,7 +23,7 @@ export interface IDashboardGridPropsBase {
 export type TWidgetSize = 'default' | 'large' | 'xlarge'
 export type TWidgetDirection = 'row' | 'column'
 
-export interface IDashboardWidgetPropsBase {
+export interface IDashboardWidgetPropsBase<TExtraProps = any> {
   index: number
   maxIndex: number
   widgetKey: TDashboardWidgetKey
@@ -40,6 +40,9 @@ export interface IDashboardWidgetPropsBase {
   noBorder?: boolean
   noPadding?: boolean
   direction?: TWidgetDirection // for containers only
+
+  // for additional props passed to all widget from the dashboard through the DynamicWidgetLoader:
+  extraProps?: TExtraProps
 }
 
 /* support plugin architecture: */

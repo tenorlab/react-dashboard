@@ -8,7 +8,7 @@ import type {
   TDashboardWidgetKey,
 } from './interfaces'
 
-type TDynamicWidgetLoaderProps = {
+type TDynamicWidgetLoaderProps<TExtraProps = any> = {
   index: number
   maxIndex: number
   widgetKey: TDashboardWidgetKey
@@ -17,6 +17,8 @@ type TDynamicWidgetLoaderProps = {
   childWidgetsConfig?: IChildWidgetConfigEntry[]
   widgetCatalog: TDashboardWidgetCatalog
   isEditing: boolean
+  // for additional props passed to all widget from the dashboard through the DynamicWidgetLoader:
+  extraProps?: TExtraProps
   onRemoveClick?: (widgetKey: TDashboardWidgetKey, parentWidgetKey?: TDashboardWidgetKey) => void
   onMoveClick?: (
     direction: -1 | 1,
@@ -72,6 +74,8 @@ export function DynamicWidgetLoader({
   childWidgetsConfig,
   widgetCatalog,
   isEditing,
+  // for additional props passed to all widget from the dashboard through the DynamicWidgetLoader:
+  extraProps,
   onRemoveClick,
   onMoveClick,
   selectContainer,
@@ -98,6 +102,27 @@ export function DynamicWidgetLoader({
     | React.LazyExoticComponent<React.ComponentType<any>>
     | null = null
   let requiresSuspense = false
+
+  // 3. --- Prepare Props (Simplified for clarity) ---
+  const isContainerType = !!widgetCatalogEntry.isContainer
+  const parsedContainerTitle = isContainerInstance ? parseContainerTitle(widgetKey) : ''
+
+  // Filter children for containers
+  const childWidgetEntries = isContainerType
+    ? (childWidgetsConfig || []).filter((a) => a.parentWidgetKey === widgetKey)
+    : []
+
+  const baseProps = {
+    index,
+    maxIndex,
+    widgetKey,
+    parentWidgetKey,
+    isEditing,
+    extraProps,
+    title: isContainerInstance ? parsedContainerTitle : widgetCatalogEntry.title,
+    onRemoveClick,
+    onMoveClick,
+  }
 
   // 2. --- Component Source Determination ---
   if (widgetCatalogEntry.component) {
@@ -196,26 +221,6 @@ export function DynamicWidgetLoader({
     )
   }
 
-  // 3. --- Prepare Props (Simplified for clarity) ---
-  const isContainerType = !!widgetCatalogEntry.isContainer
-  const parsedContainerTitle = isContainerInstance ? parseContainerTitle(widgetKey) : ''
-
-  // Filter children for containers
-  const childWidgetEntries = isContainerType
-    ? (childWidgetsConfig || []).filter((a) => a.parentWidgetKey === widgetKey)
-    : []
-
-  const baseProps = {
-    index,
-    maxIndex,
-    widgetKey,
-    parentWidgetKey,
-    isEditing,
-    title: isContainerInstance ? parsedContainerTitle : widgetCatalogEntry.title,
-    onRemoveClick,
-    onMoveClick,
-  }
-
   // Props specific to containers
   const containerProps = isContainerType
     ? {
@@ -231,6 +236,7 @@ export function DynamicWidgetLoader({
             parentWidgetKey={entry.parentWidgetKey}
             widgetCatalog={widgetCatalog}
             isEditing={isEditing}
+            extraProps={extraProps}
             onRemoveClick={onRemoveClick}
             onMoveClick={onMoveClick}
             // Note: targetContainerKey and selectContainer are not passed down to children
@@ -240,16 +246,13 @@ export function DynamicWidgetLoader({
     : {}
 
   // 4. --- Conditional Render ---
-
-  const ComponentToRender = () => <WidgetToRender {...baseProps} {...containerProps} />
-
   if (requiresSuspense) {
     return (
       <Suspense fallback={<SpinnerComponent title={`Loading ${widgetCatalogEntry.title}`} />}>
-        <ComponentToRender />
+        <WidgetToRender {...baseProps} {...containerProps} />
       </Suspense>
     )
   } else {
-    return <ComponentToRender />
+    return <WidgetToRender {...baseProps} {...containerProps} />
   }
 }
