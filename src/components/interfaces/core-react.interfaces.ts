@@ -20,7 +20,7 @@ export interface IDashboardGridProps extends IDashboardGridPropsBase {
   children?: ReactNode
 }
 
-export interface IDashboardWidgetProps extends IDashboardWidgetPropsBase {
+export interface IDashboardWidgetProps<TExtraProps = any> extends IDashboardWidgetPropsBase<TExtraProps> {
   children?: ReactNode
   onRemoveClick?: (widgetKey: TDashboardWidgetKey, parentWidgetKey?: TDashboardWidgetKey) => void
   onMoveClick?: (
