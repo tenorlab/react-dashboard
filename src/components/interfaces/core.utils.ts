@@ -123,17 +123,16 @@ export const ensureContainersSequence = (dashboardConfig: IDashboardConfig): IDa
 export const getDefaultWidgetMetaFromKey: TGetDefaultWidgetMetaFromKey = (
   widgetKey: TDashboardWidgetKey,
   options?: {
-    title?: string
+    name?: string
     description?: string
   },
-) => {
+): TWidgetMetaInfoBase => {
   const isContainer = `${widgetKey}`.includes('Container')
   const categories: TWidgetCategory[] = isContainer ? ['Container'] : ['Widget']
-  const title = options?.title || widgetKey
+  const name = options?.name || widgetKey
   const description = options?.description || (isContainer ? 'Container' : 'Unknown')
   return {
-    title,
-    name: widgetKey,
+    name,
     description,
     categories,
     noDuplicatedWidgets: true,
