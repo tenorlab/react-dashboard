@@ -254,23 +254,19 @@ export const createDynamicEntry = (
 export const parseKeyAndTitleFromFilePath = (
   path: string,
 ): { key: TDashboardWidgetKey; title: string; folder: string } | null => {
-  // 1. More flexible regex to capture everything after 'widget-' until the end of the folder
-  const match = path.match(/\/widget-([a-zA-Z0-9_-]+)\/(index|widget-.*|.*)\.ts(x?)$/)
+  // Regex to capture the folder name between 'widget-' and '/index.ts'
+  const match = path.match(/\/widget-([a-zA-Z0-9-]+)\/index\.ts$/)
 
   if (match && match[1]) {
-    const folderName = match[1] // e.g., 'revenue-trends-async'
+    const folderName = match[1] // e.g., "gold-prices"
+    const segments = folderName.split('-')
 
-    // Split by hyphens or underscores to find the segments
-    const segments = folderName.split(/[-_]/)
-
-    // 2. Build the Key (PascalCase)
-    // We map segments to ensure the first letter is Upper, but we preserve
-    // trailing numbers (e.g., 'trends1' -> 'Trends1')
+    // 1. Generate Key: WidgetGoldPrices
     const key = `Widget${segments
       .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
       .join('')}` as TDashboardWidgetKey
 
-    // 3. Build the Title (Space Separated)
+    // 2. Generate Title: Gold Prices
     const title = segments.map((s) => s.charAt(0).toUpperCase() + s.slice(1)).join(' ')
 
     return {
@@ -283,23 +279,42 @@ export const parseKeyAndTitleFromFilePath = (
   return null
 }
 
+// export const getMetaInfoFromFile = (
+//   metaModules: Record<string, Record<string, TWidgetMetaInfoBase>>,
+//   baseSrcPath: string, // e.g. '/src/plugins' or '/src/static-widgets'
+//   folderName: string, // e.g. 'gold-prices' (derived from folder)
+//   key: string, // e.g. 'WidgetGoldPrices'
+// ): TWidgetMetaInfoBase | undefined => {
+//   // The path to the meta file should be: /src/widgets/widget-folder/widget-folder.meta.ts
+//   const metaLookupPath = `${baseSrcPath}/widget-${folderName}/widget-${folderName}.meta.ts`
+//   // The eagerly loaded module is stored in metaModules[path]
+//   const metaModule = metaModules[metaLookupPath]
+//   // Determine the final metadata: Use the specific named export from the meta file,
+//   // Look for the named export (e.g. WidgetGoldPricesMeta)
+//   const namedExport = `${key}Meta`
+//   if (metaModule && metaModule[namedExport]) {
+//     return metaModule[namedExport]
+//   }
+//   return undefined
+// }
 export const getMetaInfoFromFile = (
-  metaModules: Record<string, Record<string, TWidgetMetaInfoBase>>,
-  baseSrcPath: string, // e.g. '/src/plugins' or '/src/static-widgets'
-  folderName: string, // e.g. 'gold-prices' (derived from folder)
-  key: string, // e.g. 'WidgetGoldPrices'
+  widgetMetaModules: Record<string, Record<string, TWidgetMetaInfoBase>>,
+  baseSrcPath: string,
+  folder: string,
+  key: string,
 ): TWidgetMetaInfoBase | undefined => {
-  // The path to the meta file should be: /src/widgets/widget-folder/widget-folder.meta.ts
-  const metaLookupPath = `${baseSrcPath}/widget-${folderName}/widget-${folderName}.meta.ts`
-  // The eagerly loaded module is stored in metaModules[path]
-  const metaModule = metaModules[metaLookupPath]
-  // Determine the final metadata: Use the specific named export from the meta file,
-  // Look for the named export (e.g. WidgetGoldPricesMeta)
-  const namedExport = `${key}Meta`
-  if (metaModule && metaModule[namedExport]) {
-    return metaModule[namedExport]
+  // We know exactly where it should be based on our new standard:
+  // Example: /src/widgets/widget-gold-prices/meta.ts
+  const targetPath = `${baseSrcPath}/widget-${folder}/meta.ts`
+
+  const metaModule = widgetMetaModules[targetPath]
+  if (!metaModule) {
+    return undefined
   }
-  return undefined
+
+  // We expect a named export: e.g., WidgetGoldPricesMeta
+  const exportName = `${key}Meta`
+  return metaModule[exportName] || undefined
 }
 
 export const remoteWidgetDiscovery = async (
@@ -359,7 +374,7 @@ export const remoteWidgetDiscovery = async (
  * If lazy is true, it registers loaders. If false, it registers static components.
  */
 export const localWidgetDiscovery = (
-  baseSrcPath: string,
+  baseSrcPath: string, // e.g., "/src/async-widgets" or "/src/bundled-widgets"
   widgetModules: Record<string, any>,
   widgetMetaModules: Record<string, any>,
   lazy: boolean = true,
@@ -373,7 +388,8 @@ export const localWidgetDiscovery = (
     if (pathData && moduleOrLoader) {
       const { key, title, folder } = pathData
 
-      // 1. Resolve Metadata
+      // 1. Resolve Metadata using the strict path
+      // Because we use meta.ts, we don't need to guess anymore
       let widgetMeta = getMetaInfoFromFile(widgetMetaModules, baseSrcPath, folder, key)
 
       if (!widgetMeta) {
@@ -383,14 +399,13 @@ export const localWidgetDiscovery = (
         })
       }
 
-      // 2. Register Entry based on lazy preference
+      // 2. Register Entry...
       if (lazy) {
         // In lazy mode, moduleOrLoader is () => import(...)
-        const loader = moduleOrLoader as TWidgetFactoryBase
-        catalogMapEntries.push(createDynamicEntry(key, loader, widgetMeta))
+        catalogMapEntries.push(
+          createDynamicEntry(key, moduleOrLoader as TWidgetFactoryBase, widgetMeta),
+        )
       } else {
-        // In non-lazy mode, moduleOrLoader is the module object itself { default: Component }
-        // We must extract the .default export for createStaticEntry
         const component = moduleOrLoader.default || moduleOrLoader
         catalogMapEntries.push(createStaticEntry(key, component, widgetMeta))
       }
