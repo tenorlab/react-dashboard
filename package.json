@@ -1,6 +1,6 @@
 {
   "name": "@tenorlab/react-dashboard",
-  "version": "1.3.2",
+  "version": "1.3.3",
   "description": "Foundation components for creating user-configurable dashboards in React",
   "author": "Damiano Fusco",
   "type": "module",
