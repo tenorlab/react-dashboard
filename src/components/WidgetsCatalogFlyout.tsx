@@ -1,7 +1,7 @@
 // file: src/components/WidgetsCatalogFlyout.tsx
 import { useState, useEffect } from 'react'
-import { 
-  getWidgetMetaFromCatalog, 
+import {
+  getWidgetMetaFromCatalog,
   dashboardSettingsUtils,
   getDistinctCssClasses,
   parseContainerTitle,
@@ -25,9 +25,7 @@ import type {
   TDashboardWidgetKey,
   TWidgetMetaInfoBase,
 } from '@tenorlab/dashboard-core'
-import type {
-  TDashboardWidgetCatalog,
-} from './interfaces/'
+import type { TDashboardWidgetCatalog } from './interfaces/'
 
 type TWidgetListItemProps = {
   widgetKey: TDashboardWidgetKey

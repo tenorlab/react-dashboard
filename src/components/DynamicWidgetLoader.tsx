@@ -2,13 +2,8 @@
 import React, { Suspense, useMemo } from 'react'
 import { parseContainerTitle } from '@tenorlab/dashboard-core'
 import { DashboardWidgetBase } from './DashboardWidgetBase'
-import type {
-  IChildWidgetConfigEntry,
-  TDashboardWidgetKey,
-} from '@tenorlab/dashboard-core'
-import type {
-  TDashboardWidgetCatalog,
-} from './interfaces'
+import type { IChildWidgetConfigEntry, TDashboardWidgetKey } from '@tenorlab/dashboard-core'
+import type { TDashboardWidgetCatalog } from './interfaces'
 
 type TDynamicWidgetLoaderProps<TExtraProps = any> = {
   index: number
