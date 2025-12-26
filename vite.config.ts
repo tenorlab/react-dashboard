@@ -16,7 +16,10 @@ export default defineConfig({
       tsconfigPath: './tsconfig.json',
       insertTypesEntry: true,
       // Forces the inclusion of types from your devDependency
-      bundledPackages: ['@tenorlab/dashboard-core']
+      bundledPackages: ['@tenorlab/dashboard-core'],
+      compilerOptions: {
+        noEmit: false // Override the tsconfig noEmit for the plugin
+      }
     })
   ],
   envDir: './',
