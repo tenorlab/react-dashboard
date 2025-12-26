@@ -2,6 +2,7 @@
 
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import dts from 'vite-plugin-dts'
 import path from 'path'
 import { name } from './package.json'
 const projectName = name.replace('@tenorlab/', '').trim().toLowerCase()
@@ -9,7 +10,14 @@ const projectName = name.replace('@tenorlab/', '').trim().toLowerCase()
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
-    react()
+    react(),
+    dts({
+      // This is vital: it flattens the types so 'dashboard-core' 
+      // types are written directly into your React package's types
+      rollupTypes: true,
+      // Ensures that even if it's a devDep, the types are processed
+      bundledPackages: ['@tenorlab/dashboard-core']
+    })
   ],
   envDir: './',
   resolve: {
