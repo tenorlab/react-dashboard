@@ -10,6 +10,7 @@ export * from './WidgetContainer'
 export * from './WidgetsCatalogFlyout'
 
 // from @tenorlab/dashboard-core
-// This re-exports all concrete values (utils, constants, classes) 
+// This re-exports all concrete values (utils, constants, classes)
 // AND all types/interfaces from the core package
+export type * from '@tenorlab/dashboard-core'
 export * from '@tenorlab/dashboard-core'
