@@ -1,6 +1,6 @@
 {
   "name": "@tenorlab/react-dashboard",
-  "version": "1.3.4",
+  "version": "1.3.5",
   "description": "Foundation components for creating user-configurable dashboards in React",
   "author": "Damiano Fusco",
   "type": "module",
@@ -18,9 +18,9 @@
   "scripts": {
     "dev": "vite",
     "clean": "rm -rf dist node_modules package-lock.json",
-    "OLD-build-types": "tsc src/index.ts --jsx react-jsx --downlevelIteration --esModuleInterop --declaration --emitDeclarationOnly --outDir dist",
+    "OLD-build-types": "tsc src/ind8ex.ts --jsx react-jsx --downlevelIteration --esModuleInterop --declaration --emitDeclarationOnly --outDir dist",
     "OLD-build": "npm run pretty; tsc --jsx react-jsx --esModuleInterop && vite build; npm run build-types",
-    "build": "npm run pretty && vite build",
+    "build": "npm run pretty; vite build",
     "pub": "npm run build; npm publish --access public --otp=",
     "test": "TESTING=true vitest run",
     "test-watch": "TESTING=true vitest watch",
@@ -36,22 +36,25 @@
   ],
   "exports": {
     ".": {
-      "import": {
-        "types": "./dist/index.d.ts",
-        "default": "./dist/react-dashboard.es.js"
-      },
-      "require": {
-        "types": "./dist/index.d.ts",
-        "default": "./dist/react-dashboard.umd.js"
-      }
+      "types": "./dist/react-dashboard.d.ts", 
+      "import": "./dist/react-dashboard.es.js"
+    },
+    "./core": {
+      "types": "./dist/core.d.ts",
+      "import": "./dist/core.es.js" 
     }
   },
-  "types": "./dist/index.d.ts",
-  "main": "./dist/react-dashboard.umd.js",
+  "types": "./dist/react-dashboard.d.ts",
+  "main": "./dist/react-dashboard.es.js",
   "module": "./dist/react-dashboard.es.js",
+  "peerDependencies": {
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0"
+  },
   "devDependencies": {
-    "@tenorlab/dashboard-core": "^1.0.0",
+    "@tenorlab/dashboard-core": "^1.0.1",
     "@types/node": "^24.10.1",
+    "@types/react": "19.2.3",
     "@types/react-dom": "19.2.3",
     "@vitejs/plugin-react": "^5.1.1",
     "prettier": "^3.7.4",

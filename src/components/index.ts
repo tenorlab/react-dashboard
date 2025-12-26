@@ -1,8 +1,3 @@
-// from @tenorlab/dashboard-core
-// This re-exports all concrete values (utils, constants, classes)
-// AND all types/interfaces from the core package
-export * from '@tenorlab/dashboard-core'
-
 // export interfaces and others
 export * from './interfaces/'
 export * from './use-dashboard-store'

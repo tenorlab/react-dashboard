@@ -1,3 +1,4 @@
+// file: vite.config.ts
 /// <reference types="vite/client" />
 
 import { defineConfig } from 'vite'
@@ -12,13 +13,21 @@ export default defineConfig({
   plugins: [
     react(),
     dts({
-      rollupTypes: true, // This merges all types into one index.d.ts
-      tsconfigPath: './tsconfig.json',
-      insertTypesEntry: true,
-      // Forces the inclusion of types from your devDependency
+      rollupTypes: true,
       bundledPackages: ['@tenorlab/dashboard-core'],
+      // This ensures the plugin looks at the root of your project 
+      // and follows the devDependencies into node_modules
       compilerOptions: {
-        noEmit: false // Override the tsconfig noEmit for the plugin
+        moduleResolution: 100, // Bundler
+        noEmit: false,
+      },
+      // Sometimes the plugin needs to be told exactly which 
+      // files to include for the rollup process
+      afterDiagnostic: (diagnostics) => {
+        // This helps debug if TS is failing to find the core types
+        if (diagnostics.length > 0) {
+          console.log('TS Diagnostics found during dts generation')
+        }
       }
     })
   ],
@@ -30,20 +39,35 @@ export default defineConfig({
   },
   build: {
     lib: {
-      entry: path.resolve(__dirname, 'src/index.ts'),
+      // Switching to object syntax for multiple outputs
+      entry: {
+        'react-dashboard': path.resolve(__dirname, 'src/index.ts'),
+        'core': path.resolve(__dirname, 'src/core.ts')
+      },
       formats: ['es'],
       name: projectName,
       fileName: (format) => `${projectName}.${format}.js`,
     },
     rollupOptions: {
       // THIS IS VITAL: The SDK must not contain React code
-      external: ['react', 'react-dom', 'react/jsx-runtime'],
+      external: ['react', 'react-dom', 'react/jsx-runtime', 'zustand'],
       output: {
         // Provide global variables to use in the UMD build
         // Add external deps here
         globals: {
           react: 'React',
+          'react-dom': 'ReactDOM'
         },
+        // This ensures your main file is named react-dashboard.es.js 
+        // and core is named core.es.js
+        entryFileNames: (chunkInfo) => {
+          // Matches the key in your lib.entry object
+          return chunkInfo.name === 'react-dashboard' 
+            ? 'react-dashboard.es.js' 
+            : '[name].es.js'
+        },
+        // If shared code is split out, name it something recognizable
+        chunkFileNames: 'chunks/[name]-[hash].js'
       },
     },
   },
