@@ -7,8 +7,8 @@ import {
   CrosshairIcon as ContainerTargetedIcon,
 } from './dashboard-primitives'
 import { getDistinctCssClasses } from '@tenorlab/dashboard-core'
-import type { JSX } from 'react'
 import type { IDashboardWidgetProps, IDashboardWidget } from './interfaces/'
+import type { JSX } from 'react'
 
 const defaultActionIconSize = 'size-5'
 
