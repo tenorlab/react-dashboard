@@ -1,5 +1,5 @@
 // file: src/components/dashboard-primitives/Wrappers.tsx
-import { getDistinctCssClasses } from './use-distinct-css-classes'
+import { getDistinctCssClasses } from '@tenorlab/dashboard-core'
 
 type TProps = {
   children: React.ReactNode

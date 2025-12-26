@@ -1,4 +1,4 @@
-import { getDistinctCssClasses } from './use-distinct-css-classes'
+import { getDistinctCssClasses } from '@tenorlab/dashboard-core'
 import type { IButtonProps } from './interfaces'
 
 const cssStrategy = new Map<string, string>([

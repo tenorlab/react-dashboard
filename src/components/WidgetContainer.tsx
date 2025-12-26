@@ -6,9 +6,9 @@ import {
   MoveRightIcon,
   CrosshairIcon as ContainerTargetedIcon,
 } from './dashboard-primitives'
-import { getDistinctCssClasses } from './dashboard-primitives'
+import { getDistinctCssClasses } from '@tenorlab/dashboard-core'
 import type { JSX } from 'react'
-import type { IDashboardWidgetProps, IDashboardWidget } from './interfaces/core-react.interfaces'
+import type { IDashboardWidgetProps, IDashboardWidget } from './interfaces/'
 
 const defaultActionIconSize = 'size-5'
 

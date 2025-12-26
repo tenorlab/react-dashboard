@@ -1,7 +1,11 @@
 // file: src/components/WidgetsCatalogFlyout.tsx
 import { useState, useEffect } from 'react'
-import { getWidgetMetaFromCatalog } from './interfaces/'
-import { dashboardSettingsUtils } from './dashboard-settings/'
+import { 
+  getWidgetMetaFromCatalog, 
+  dashboardSettingsUtils,
+  getDistinctCssClasses,
+  parseContainerTitle,
+} from '@tenorlab/dashboard-core'
 import {
   HandIcon,
   HandGrabIcon,
@@ -13,16 +17,16 @@ import {
   Button,
   DraggablePanel,
   TextField,
-  getDistinctCssClasses,
-  parseContainerTitle,
 } from './dashboard-primitives/'
 import type {
   IDashboardConfig,
   IDashboardSettingEntry,
   TDashboardUndoStatus,
-  TDashboardWidgetCatalog,
   TDashboardWidgetKey,
   TWidgetMetaInfoBase,
+} from '@tenorlab/dashboard-core'
+import type {
+  TDashboardWidgetCatalog,
 } from './interfaces/'
 
 type TWidgetListItemProps = {

@@ -6,7 +6,7 @@ import {
   MoveLeftIcon,
   MoveRightIcon,
 } from './dashboard-primitives/'
-import { getDistinctCssClasses } from './dashboard-primitives/'
+import { getDistinctCssClasses } from '@tenorlab/dashboard-core'
 import type { IDashboardWidgetProps } from './interfaces/core-react.interfaces'
 
 const defaultActionIconSize = 'size-5'

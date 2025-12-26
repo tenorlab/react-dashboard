@@ -1,11 +1,13 @@
 // file: src/components/DynamicWidgetLoader.tsx
 import React, { Suspense, useMemo } from 'react'
-import { parseContainerTitle } from './dashboard-primitives/'
+import { parseContainerTitle } from '@tenorlab/dashboard-core'
 import { DashboardWidgetBase } from './DashboardWidgetBase'
 import type {
   IChildWidgetConfigEntry,
-  TDashboardWidgetCatalog,
   TDashboardWidgetKey,
+} from '@tenorlab/dashboard-core'
+import type {
+  TDashboardWidgetCatalog,
 } from './interfaces'
 
 type TDynamicWidgetLoaderProps<TExtraProps = any> = {

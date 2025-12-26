@@ -1,6 +1,6 @@
 {
   "name": "@tenorlab/react-dashboard",
-  "version": "1.2.6",
+  "version": "1.2.7",
   "description": "Foundation components for creating user-configurable dashboards in React",
   "author": "Damiano Fusco",
   "type": "module",
@@ -50,6 +50,7 @@
   "main": "./dist/react-dashboard.umd.js",
   "module": "./dist/react-dashboard.es.js",
   "devDependencies": {
+    "@tenorlab/dashboard-core": "^1.0.0",
     "@types/node": "^24.10.1",
     "@types/react-dom": "19.2.3",
     "@vitejs/plugin-react": "^5.1.1",

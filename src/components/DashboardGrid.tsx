@@ -1,7 +1,9 @@
 // file: src/components/DashboardGrid.tsx
 import { forwardRef, CSSProperties } from 'react'
-import { getDistinctCssClasses } from './dashboard-primitives/'
-import { ensureZoomScaleIsWithinRange } from './interfaces'
+import { 
+  getDistinctCssClasses,
+  ensureZoomScaleIsWithinRange,
+} from '@tenorlab/dashboard-core'
 import type { IDashboardGridProps } from './interfaces/core-react.interfaces'
 
 interface CustomCSSProperties extends CSSProperties {

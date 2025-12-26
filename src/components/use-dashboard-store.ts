@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { StateCreator } from 'zustand'
-import { blankDashboardConfig, ensureContainersSequence } from './interfaces'
-import type { IDashboardConfig, TDashboardWidgetKey } from './interfaces'
+import { blankDashboardConfig, ensureContainersSequence } from '@tenorlab/dashboard-core'
+import type { IDashboardConfig, TDashboardWidgetKey } from '@tenorlab/dashboard-core'
 
 type TAddWidgetResponse = {
   success: boolean

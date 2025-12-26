@@ -1,7 +1,5 @@
 export * from './interfaces/'
-export * from './dashboard-settings'
 export * from './use-dashboard-store'
-export * from './use-dashboard-storage-service'
 export * from './use-dashboard-undo-service'
 // components:
 export * from './dashboard-primitives/'

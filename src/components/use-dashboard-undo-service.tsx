@@ -1,5 +1,5 @@
 // file: use-dashboard-undo-service.tsx
-import type { IDashboardConfig, TUndoHistoryEntry, TDashboardUndoStatus } from './interfaces'
+import type { IDashboardConfig, TUndoHistoryEntry, TDashboardUndoStatus } from '@tenorlab/dashboard-core'
 import { useState, useCallback } from 'react'
 
 export const useDashboardUndoService = () => {

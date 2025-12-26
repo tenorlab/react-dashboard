@@ -1,6 +1,6 @@
 import { ReactNode, forwardRef } from 'react'
 import { Stack, type TStackProps } from './Stack'
-import { getDistinctCssClasses } from './use-distinct-css-classes'
+import { getDistinctCssClasses } from '@tenorlab/dashboard-core'
 
 export const ListItem = forwardRef<HTMLDivElement, TStackProps & { innerClass?: string }>(
   (props, _ref) => {

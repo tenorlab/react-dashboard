@@ -1,5 +1,5 @@
 import { CSSProperties } from 'react'
-import { getDistinctCssClasses } from './use-distinct-css-classes'
+import { getDistinctCssClasses } from '@tenorlab/dashboard-core'
 
 export type TStackProps = {
   testId?: string

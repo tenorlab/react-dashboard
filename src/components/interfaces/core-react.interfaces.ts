@@ -7,7 +7,7 @@ import type {
   TWidgetFactoryBase,
   IDynamicWidgetCatalogEntryBase,
   TDashboardWidgetCatalogBase,
-} from './core.base'
+} from '@tenorlab/dashboard-core'
 import type { ReactNode, JSX } from 'react'
 
 // framework specific component type and element type
