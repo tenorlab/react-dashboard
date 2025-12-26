@@ -12,10 +12,10 @@ export default defineConfig({
   plugins: [
     react(),
     dts({
-      // This is vital: it flattens the types so 'dashboard-core' 
-      // types are written directly into your React package's types
-      rollupTypes: true,
-      // Ensures that even if it's a devDep, the types are processed
+      rollupTypes: true, // This merges all types into one index.d.ts
+      tsconfigPath: './tsconfig.json',
+      insertTypesEntry: true,
+      // Forces the inclusion of types from your devDependency
       bundledPackages: ['@tenorlab/dashboard-core']
     })
   ],
