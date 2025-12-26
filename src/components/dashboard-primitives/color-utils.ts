@@ -24,14 +24,3 @@ export const resolveColorFromClass = (
   return color
 }
 
-export const resolvedColors = {
-  primary: resolveColorFromClass('text-primary', 'color'),
-  secondary: resolveColorFromClass('text-secondary', 'color'),
-  success: resolveColorFromClass('text-success', 'color'),
-  danger: resolveColorFromClass('text-danger', 'color'),
-  warning: resolveColorFromClass('text-warning', 'color'),
-  info: resolveColorFromClass('text-info', 'color'),
-  disabled: resolveColorFromClass('text-disabled', 'color'),
-  neutral: resolveColorFromClass('text-neutral', 'color'),
-  body: resolveColorFromClass('text-body', 'color'),
-}
