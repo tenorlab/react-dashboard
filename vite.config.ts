@@ -67,7 +67,14 @@ export default defineConfig({
             : '[name].es.js'
         },
         // If shared code is split out, name it something recognizable
-        chunkFileNames: 'chunks/[name]-[hash].js'
+        chunkFileNames: 'chunks/[name]-[hash].js',
+        assetFileNames: (assetInfo) => {
+          const name = assetInfo.names?.[0] ?? assetInfo.name
+          if (name && name.endsWith('.css')) {
+            return 'styles.css'
+          }
+          return '[name][extname]'
+        },
       },
     },
   },
