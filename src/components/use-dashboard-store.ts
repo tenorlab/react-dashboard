@@ -124,15 +124,18 @@ const _removeWidget = (
   widgetKey: TDashboardWidgetKey,
   parentWidgetKey?: TDashboardWidgetKey,
 ): Omit<TRemoveWidgetResponse, 'allUpdatedDashboardConfigs'> => {
-  if ((parentWidgetKey || '').trim().length > 0) {
+  const lowerWidgetKey = `${widgetKey}`.trim().toLowerCase()
+  const lowerParentWidgetKey = `${parentWidgetKey}`.trim().toLowerCase()
+
+  if (lowerParentWidgetKey.length > 0) {
     // if removing from parent container:
     // save the other containers's widgets:
     const othersChildWidgets = dashboardConfig.childWidgetsConfig.filter(
-      (entry) => entry.parentWidgetKey !== parentWidgetKey,
+      (entry) => `${entry.parentWidgetKey}`.trim().toLowerCase() !== lowerParentWidgetKey,
     )
     // remove current widget from the container matching the parentWidhetKey argument
     const updateContainerChildWidgets = dashboardConfig.childWidgetsConfig.filter(
-      (entry) => entry.parentWidgetKey === parentWidgetKey && entry.widgetKey !== widgetKey,
+      (entry) => `${entry.parentWidgetKey}`.trim().toLowerCase() === lowerParentWidgetKey && `${entry.widgetKey}`.trim().toLowerCase() !== lowerWidgetKey,
     )
     // update
     const newChildWidgetsConfig = [...othersChildWidgets, ...updateContainerChildWidgets]
@@ -142,7 +145,7 @@ const _removeWidget = (
     }
 
     // if removing container, ensure correct container sequence but keep original order
-    const isContainer = `${widgetKey}`.includes('Container')
+    const isContainer = lowerWidgetKey.includes('container')
     if (isContainer) {
       updatedDashboardConfig = ensureContainersSequence(updatedDashboardConfig)
     }
@@ -153,10 +156,10 @@ const _removeWidget = (
     }
   } else {
     // remove the root level widget
-    const updatedWidgets = dashboardConfig.widgets.filter((key) => key !== widgetKey)
+    const updatedWidgets = dashboardConfig.widgets.filter((key) => `${key}`.trim().toLowerCase() !== lowerWidgetKey)
     // if the widget bring remove is a container, remove also all its childWidgets
     const updatedChildWidgets = dashboardConfig.childWidgetsConfig.filter(
-      (entry) => entry.parentWidgetKey !== widgetKey,
+      (entry) => `${entry.parentWidgetKey}`.trim().toLowerCase() !== lowerWidgetKey,
     )
     return {
       success: true,
@@ -175,17 +178,21 @@ const _moveWidget = (
   widgetKey: TDashboardWidgetKey,
   parentWidgetKey?: TDashboardWidgetKey,
 ): Omit<TMoveWidgetResponse, 'allUpdatedDashboardConfigs'> => {
-  if ((parentWidgetKey || '').trim().length > 0) {
+  const lowerWidgetKey = `${widgetKey}`.trim().toLowerCase()
+  const lowerParentWidgetKey = `${parentWidgetKey}`.trim().toLowerCase()
+  
+  if (lowerParentWidgetKey.length > 0) {
     // if moving inside parent container:
     // save the other containers's widgets:
     const othersChildWidgets = dashboardConfig.childWidgetsConfig.filter(
-      (entry) => entry.parentWidgetKey !== parentWidgetKey,
+      (entry) => `${entry.parentWidgetKey}`.trim().toLowerCase() !== lowerParentWidgetKey,
     )
     // get this container widgets:
     let containerChildWidgets = dashboardConfig.childWidgetsConfig.filter(
-      (entry) => entry.parentWidgetKey === parentWidgetKey,
+      (entry) => `${entry.parentWidgetKey}`.trim().toLowerCase() === lowerParentWidgetKey,
     )
-    const currentIndex = containerChildWidgets.indexOf(widgetKey as any)
+    const childWidget = containerChildWidgets.find(x => `${x.widgetKey}`.trim().toLowerCase() === lowerWidgetKey)
+    const currentIndex = containerChildWidgets.indexOf(childWidget!)
     let newIndex = currentIndex + direction
 
     // Ensure the new index is within the array bounds
@@ -223,7 +230,8 @@ const _moveWidget = (
   } else {
     // move root level widget
     const allWidgets = dashboardConfig.widgets || []
-    const currentIndex = allWidgets.indexOf(widgetKey)
+    const childWidget = allWidgets.find(key => `${key}`.trim().toLowerCase() === lowerWidgetKey)
+    const currentIndex = allWidgets.indexOf(childWidget!)
     let newIndex = currentIndex + direction
 
     // Ensure the new index is within the array bounds
