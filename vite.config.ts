@@ -1,3 +1,4 @@
+// @tenorlab/react-dashboard
 // file: vite.config.ts
 /// <reference types="vite/client" />
 

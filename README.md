@@ -9,7 +9,7 @@ Foundation components for creating user-configurable, high-performance dashboard
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Installation
 

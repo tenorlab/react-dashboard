@@ -1,3 +1,6 @@
+// @tenorlab/react-dashboard
+// file: src/components/use-dashboard-store.ts
+
 import { create } from 'zustand'
 import { StateCreator } from 'zustand'
 import { blankDashboardConfig, ensureContainersSequence } from '@tenorlab/dashboard-core'

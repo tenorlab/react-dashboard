@@ -1,3 +1,6 @@
+// @tenorlab/react-dashboard
+// file: src/components/dashboard-primitives/index.ts
+
 export * from './interfaces'
 export * from './icons'
 

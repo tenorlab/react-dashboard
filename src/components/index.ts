@@ -1,3 +1,6 @@
+// @tenorlab/react-dashboard
+// file: src/components/index.ts
+
 // export interfaces and others
 export * from './interfaces/'
 export * from './use-dashboard-store'

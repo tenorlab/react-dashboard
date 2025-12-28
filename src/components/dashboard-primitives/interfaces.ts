@@ -1,3 +1,6 @@
+// @tenorlab/react-dashboard
+// file: src/components/dashboard-primitives/interfaces.ts
+
 export interface ITooltipProps {
   placement: string
   title: string
