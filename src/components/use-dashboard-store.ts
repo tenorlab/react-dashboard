@@ -124,8 +124,8 @@ const _removeWidget = (
   widgetKey: TDashboardWidgetKey,
   parentWidgetKey?: TDashboardWidgetKey,
 ): Omit<TRemoveWidgetResponse, 'allUpdatedDashboardConfigs'> => {
-  const lowerWidgetKey = `${widgetKey}`.trim().toLowerCase()
-  const lowerParentWidgetKey = `${parentWidgetKey}`.trim().toLowerCase()
+  const lowerWidgetKey = `${widgetKey || ''}`.trim().toLowerCase()
+  const lowerParentWidgetKey = `${parentWidgetKey || ''}`.trim().toLowerCase()
 
   if (lowerParentWidgetKey.length > 0) {
     // if removing from parent container:
@@ -184,9 +184,8 @@ const _moveWidget = (
   widgetKey: TDashboardWidgetKey,
   parentWidgetKey?: TDashboardWidgetKey,
 ): Omit<TMoveWidgetResponse, 'allUpdatedDashboardConfigs'> => {
-  const lowerWidgetKey = `${widgetKey}`.trim().toLowerCase()
-  const lowerParentWidgetKey = `${parentWidgetKey}`.trim().toLowerCase()
-
+  const lowerWidgetKey = `${widgetKey || ''}`.trim().toLowerCase()
+  const lowerParentWidgetKey = `${parentWidgetKey || ''}`.trim().toLowerCase()
   if (lowerParentWidgetKey.length > 0) {
     // if moving inside parent container:
     // save the other containers's widgets:
