@@ -158,10 +158,12 @@ const _removeWidget = (
     }
   } else {
     // remove the root level widget
-    const updatedWidgets = dashboardConfig.widgets.filter(
+    const allWidgets = dashboardConfig.widgets || []
+
+    const updatedWidgets = allWidgets.filter(
       (key) => `${key}`.trim().toLowerCase() !== lowerWidgetKey,
     )
-    // if the widget bring remove is a container, remove also all its childWidgets
+    // if the widget being removed is a container, remove also all its childWidgets
     const updatedChildWidgets = dashboardConfig.childWidgetsConfig.filter(
       (entry) => `${entry.parentWidgetKey}`.trim().toLowerCase() !== lowerWidgetKey,
     )
@@ -236,8 +238,8 @@ const _moveWidget = (
   } else {
     // move root level widget
     const allWidgets = dashboardConfig.widgets || []
-    const childWidget = allWidgets.find((key) => `${key}`.trim().toLowerCase() === lowerWidgetKey)
-    const currentIndex = allWidgets.indexOf(childWidget!)
+    const allWidgetsLower = allWidgets.map((x) => `${x}`.trim().toLowerCase())
+    const currentIndex = allWidgetsLower.indexOf(lowerWidgetKey)
     let newIndex = currentIndex + direction
 
     // Ensure the new index is within the array bounds
