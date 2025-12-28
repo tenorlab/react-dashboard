@@ -135,7 +135,9 @@ const _removeWidget = (
     )
     // remove current widget from the container matching the parentWidhetKey argument
     const updateContainerChildWidgets = dashboardConfig.childWidgetsConfig.filter(
-      (entry) => `${entry.parentWidgetKey}`.trim().toLowerCase() === lowerParentWidgetKey && `${entry.widgetKey}`.trim().toLowerCase() !== lowerWidgetKey,
+      (entry) =>
+        `${entry.parentWidgetKey}`.trim().toLowerCase() === lowerParentWidgetKey &&
+        `${entry.widgetKey}`.trim().toLowerCase() !== lowerWidgetKey,
     )
     // update
     const newChildWidgetsConfig = [...othersChildWidgets, ...updateContainerChildWidgets]
@@ -156,7 +158,9 @@ const _removeWidget = (
     }
   } else {
     // remove the root level widget
-    const updatedWidgets = dashboardConfig.widgets.filter((key) => `${key}`.trim().toLowerCase() !== lowerWidgetKey)
+    const updatedWidgets = dashboardConfig.widgets.filter(
+      (key) => `${key}`.trim().toLowerCase() !== lowerWidgetKey,
+    )
     // if the widget bring remove is a container, remove also all its childWidgets
     const updatedChildWidgets = dashboardConfig.childWidgetsConfig.filter(
       (entry) => `${entry.parentWidgetKey}`.trim().toLowerCase() !== lowerWidgetKey,
@@ -180,7 +184,7 @@ const _moveWidget = (
 ): Omit<TMoveWidgetResponse, 'allUpdatedDashboardConfigs'> => {
   const lowerWidgetKey = `${widgetKey}`.trim().toLowerCase()
   const lowerParentWidgetKey = `${parentWidgetKey}`.trim().toLowerCase()
-  
+
   if (lowerParentWidgetKey.length > 0) {
     // if moving inside parent container:
     // save the other containers's widgets:
@@ -191,7 +195,9 @@ const _moveWidget = (
     let containerChildWidgets = dashboardConfig.childWidgetsConfig.filter(
       (entry) => `${entry.parentWidgetKey}`.trim().toLowerCase() === lowerParentWidgetKey,
     )
-    const childWidget = containerChildWidgets.find(x => `${x.widgetKey}`.trim().toLowerCase() === lowerWidgetKey)
+    const childWidget = containerChildWidgets.find(
+      (x) => `${x.widgetKey}`.trim().toLowerCase() === lowerWidgetKey,
+    )
     const currentIndex = containerChildWidgets.indexOf(childWidget!)
     let newIndex = currentIndex + direction
 
@@ -230,7 +236,7 @@ const _moveWidget = (
   } else {
     // move root level widget
     const allWidgets = dashboardConfig.widgets || []
-    const childWidget = allWidgets.find(key => `${key}`.trim().toLowerCase() === lowerWidgetKey)
+    const childWidget = allWidgets.find((key) => `${key}`.trim().toLowerCase() === lowerWidgetKey)
     const currentIndex = allWidgets.indexOf(childWidget!)
     let newIndex = currentIndex + direction
 
