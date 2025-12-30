@@ -3,6 +3,7 @@
 
 import { create } from 'zustand'
 import { StateCreator } from 'zustand'
+import { subscribeWithSelector } from 'zustand/middleware'
 import { blankDashboardConfig, ensureContainersSequence } from '@tenorlab/dashboard-core'
 import type { IDashboardConfig, TDashboardWidgetKey } from '@tenorlab/dashboard-core'
 
@@ -446,6 +447,11 @@ const createDashboardSlice: StateCreator<TDashboardSlice, [], [], TDashboardSlic
 
 type TDashboardStore = TDashboardSlice
 
-export const useDashboardStore = create<TDashboardStore>()((...state) => ({
-  ...createDashboardSlice(...state),
-}))
+// export const useDashboardStore = create<TDashboardStore>()((...state) => ({
+//   ...createDashboardSlice(...state),
+// }))
+export const useDashboardStore = create<TDashboardStore>()(
+  subscribeWithSelector((...state) => ({
+    ...createDashboardSlice(...state),
+  })),
+)
