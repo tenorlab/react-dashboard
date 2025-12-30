@@ -37,7 +37,7 @@ Import the base styles in your entry file (e.g., `main.tsx`):
 TypeScript
 
 ```
-import '@tenorlab/react-dashboard/dist/style.css'
+import '@tenorlab/react-dashboard/styles.css'
 ```
 
 ------
@@ -169,18 +169,20 @@ export const getWidgetCatalog = async (user: any | null): Promise<TDashboardWidg
     catalogMapEntries.push(createStaticEntry('WidgetRecentPaymentInfo', WidgetRecentPaymentInfo))
   }
 
+  // add bundled widgets (non-lazy)
   catalogMapEntries.push(...localWidgetDiscovery(
     bundledWidgetsSrcPath,
     bundledWidgetModules,
     allMetaModules,
-    false
+    false, // lazy: false
   ))
 
+  // add async-widgets (lazy)
   catalogMapEntries.push(...localWidgetDiscovery(
     asyncWidgetsSrcPath,
     asyncWidgetModules,
     allMetaModules,
-    true
+    true, // lazy: true
   ))
 
   // Optional: Remote discovery of -pre-built widgets hosted on a CDN
