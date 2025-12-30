@@ -246,7 +246,6 @@ export function DynamicWidgetLoader({
   if (requiresSuspense) {
     return (
       <Suspense fallback={<SpinnerComponent title={`Loading ${widgetCatalogEntry.title}`} />}>
-        ]
         <WidgetToRender {...baseProps} {...containerProps} />
       </Suspense>
     )
