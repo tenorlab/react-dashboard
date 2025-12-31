@@ -27,7 +27,7 @@ export interface IButtonProps {
   shadow?: string
   shadowHover?: string
   addCss?: string
-  onClick: () => any
+  onClick: (ev?: any) => any
   children: React.ReactNode
 }
 
