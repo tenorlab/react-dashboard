@@ -5,6 +5,7 @@ type DraggablePanelProps = {
   testId?: string
   className: string
   style?: CSSProperties
+  zIndex?: number,
   onDraggingChange?: (isDragging: boolean) => void
   children: React.ReactNode
 }
@@ -12,6 +13,7 @@ type DraggablePanelProps = {
 // We keep forwardRef if consumers might still need a ref to the component's root,
 // but for the Draggable logic, we use an internal ref.
 export const DraggablePanel = forwardRef<HTMLDivElement, DraggablePanelProps>((props, _ref) => {
+  const zIndex = typeof props.zIndex !== 'undefined' ? Number(props.zIndex) : 99999;
   // The styles needed to make it float
   const defaultFloatingStyles: React.CSSProperties = {
     // 1. Take it out of the document flow
@@ -20,7 +22,7 @@ export const DraggablePanel = forwardRef<HTMLDivElement, DraggablePanelProps>((p
     top: '6rem',
     right: '1rem',
     // 3. Ensure it stacks above other content
-    zIndex: 1,
+    zIndex,
 
     // Add your layout/appearance styles
     width: '360px',
