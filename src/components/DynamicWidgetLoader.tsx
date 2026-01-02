@@ -1,9 +1,9 @@
 // file: src/components/DynamicWidgetLoader.tsx
 import React, { Suspense, useMemo } from 'react'
 import { parseContainerTitle } from '@tenorlab/dashboard-core'
-import { DashboardWidgetBase } from './DashboardWidgetBase'
 import type { IChildWidgetConfigEntry, TDashboardWidgetKey } from '@tenorlab/dashboard-core'
-import type { TDashboardWidgetCatalog } from './interfaces'
+import type { TDashboardWidgetCatalog, TWidgetErrorExtraProps } from './interfaces'
+import { WidgetErrorWrapper } from './WidgetErrorWrapper'
 
 type TDynamicWidgetLoaderProps<TExtraProps = any> = {
   index: number
@@ -145,32 +145,52 @@ export function DynamicWidgetLoader({
         const requiredVer = reactReq.split('@')[1]
 
         if (!_isVersionCompatible(hostVer, requiredVer)) {
+          // 3. prepare extrProps with error information for the WidgetErrorWrapper component
+          const errorInfo: TWidgetErrorExtraProps = {
+            ...baseProps.extraProps,
+            hostVer,
+            requiredVer,
+            externalDependencies,
+            errorMessage: `Incompatible React version. Required: ${requiredVer}, Host: ${hostVer}`,
+            versionMismatch: true,
+          }
+          baseProps.extraProps = {
+            ...baseProps.extraProps,
+            ...errorInfo,
+          }
+
           return React.lazy(async () => ({
-            default: () => (
-              <DashboardWidgetBase {...baseProps}>
-                <div className="p-4 border border-dashed border-danger">
-                  <p className="font-bold">Failed to load "{widgetKey}"</p>
-                  <p className="text-xs italic">
-                    The remote plugin is unavailable or incompatible.
-                    <p className="font-bold text-sm">Version Mismatch: {widgetKey}</p>
-                    <p className="text-xs">
-                      Widget requires <strong>React {requiredVer}</strong>. Host is running{' '}
-                      <strong>{hostVer}</strong>.
-                    </p>
-                  </p>
-                  <div className="flex flex-col mt-3">
-                    <h5>Externals:</h5>
-                    <dl className="ml-2 flex flex-col text-xs">
-                      {externalDependencies.map((dep, i) => (
-                        <dd key={i}>- {dep}</dd>
-                      ))}
-                    </dl>
-                  </div>
-                </div>
-              </DashboardWidgetBase>
-            ),
+            default: () => <WidgetErrorWrapper {...baseProps} />,
           }))
         }
+
+        // if (!_isVersionCompatible(hostVer, requiredVer)) {
+        //   return React.lazy(async () => ({
+        //     default: () => (
+        //       <DashboardWidgetBase {...baseProps}>
+        //         <div className="p-4 border border-dashed border-danger">
+        //           <p className="font-bold">Failed to load "{widgetKey}"</p>
+        //           <p className="text-xs italic">
+        //             The remote plugin is unavailable or incompatible.
+        //             <p className="font-bold text-sm">Version Mismatch: {widgetKey}</p>
+        //             <p className="text-xs">
+        //               Widget requires <strong>React {requiredVer}</strong>. Host is running{' '}
+        //               <strong>{hostVer}</strong>.
+        //             </p>
+        //           </p>
+        //           <div className="flex flex-col mt-3">
+        //             <h5>Externals:</h5>
+        //             <dl className="ml-2 flex flex-col text-xs">
+        //               {externalDependencies.map((dep, i) => (
+        //                 <dd key={i}>- {dep}</dd>
+        //               ))}
+        //             </dl>
+        //           </div>
+        //         </div>
+        //       </DashboardWidgetBase>
+        //     ),
+        //   }))
+        // }
       }
       // --- END VERSION CHECK ---
 
@@ -183,23 +203,41 @@ export function DynamicWidgetLoader({
         const safeLoader = async () => {
           try {
             return await widgetCatalogEntry.loader!()
-          } catch (error) {
-            console.error(`CDN Load Failure for ${widgetKey}:`, error)
+          } catch (err: any) {
+            console.error(`Widget Load Error [${widgetKey}]:`, err)
             // Return a dummy component that displays the error
+            // return {
+            //   default: () => (
+            //     <DashboardWidgetBase {...baseProps}>
+            //       <div className="p-4 border border-dashed border-danger">
+            //         <p className="font-bold">Failed to load "{widgetKey}"</p>
+            //         <p className="text-xs italic">
+            //           The remote plugin is unavailable or incompatible.
+            //         </p>
+            //         <pre className="text-xs overflow-hidden">
+            //           {JSON.stringify(widgetCatalogEntry.meta || {}, null, 2)}
+            //         </pre>
+            //       </div>
+            //     </DashboardWidgetBase>
+            //   ),
+            // }
+
+            const errorInfo: TWidgetErrorExtraProps = {
+              ...baseProps.extraProps,
+              hostVer,
+              requiredVer: reactReq ? reactReq.split('@')[1] : 'Unknown',
+              externalDependencies,
+              errorMessage: err.message,
+              versionMismatch: false,
+            }
+
+            baseProps.extraProps = {
+              ...baseProps.extraProps,
+              ...errorInfo,
+            }
+
             return {
-              default: () => (
-                <DashboardWidgetBase {...baseProps}>
-                  <div className="p-4 border border-dashed border-danger">
-                    <p className="font-bold">Failed to load "{widgetKey}"</p>
-                    <p className="text-xs italic">
-                      The remote plugin is unavailable or incompatible.
-                    </p>
-                    <pre className="text-xs overflow-hidden">
-                      {JSON.stringify(widgetCatalogEntry.meta || {}, null, 2)}
-                    </pre>
-                  </div>
-                </DashboardWidgetBase>
-              ),
+              default: () => <WidgetErrorWrapper {...baseProps} />,
             }
           }
         }
