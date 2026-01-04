@@ -373,3 +373,10 @@ This project is dual-licensed:
 2. **Commercial Use:** Requires a **Tenorlab Commercial License**.
 
 If you are using this library to build a revenue-generating product or within a commercial entity, please visit [https://payhip.com/b/gPBpo](https://payhip.com/b/gPBpo) to purchase a license.
+
+------
+
+## Links
+[Official Website](https://www.tenorlab.com)
+[Buy a icense](https://payhip.com/b/gPBpo)
+[BlueSky](https://bsky.app/profile/tenorlab.bsky.social)
