@@ -8,6 +8,12 @@ This package extends **@tenorlab/dashboard-core**. It provides the React impleme
 
 > **Note**: This package re-exports all types and utilities from `@tenorlab/dashboard-core`. You do not need to install the core package separately.
 
+
+## Demos
+-- [React Demo](https://react.tenorlab.com) (built with @tenorlab/react-dashboard)
+-- [Vue Demo](https://vue.tenorlab.com) (built with @tenorlab/vue-dashboard)
+
+
 ## ✨ Features
 
 - **Type-Safe:** Deep integration with TypeScript 5.8+ for full IDE support.
@@ -363,7 +369,22 @@ For a complete example including **Undo/Redo**, **Zooming**, **Catalog Flyouts**
 - **`useDashboardStore`**: Access the underlying Zustand store to manage widget state, layout, and configuration.
 - **`useDashboardUndoService`**: Provides `undo` and `redo` functionality for user layout changes.
 
+
 ------
+
+
+## Links
+ - [@tenorlab/react-dashboard](https://www.npmjs.com/package/@tenorlab/react-dashboard): React-specific components
+ - [@tenorlab/vue-dashboard](https://www.npmjs.com/package/@tenorlab/vue-dashboard): Vue-specific components
+ - [Official Website](https://www.tenorlab.com)
+ - [React Demo](https://react.tenorlab.com) (built with @tenorlab/react-dashboard)
+ - [Vue Demo](https://vue.tenorlab.com) (built with @tenorlab/vue-dashboard)
+ - [Buy a License](https://payhip.com/b/gPBpo)
+ - [Follow on BlueSky](https://bsky.app/profile/tenorlab.bsky.social)
+
+
+------
+
 
 ## ⚖️ Licensing
 
@@ -374,9 +395,3 @@ This project is dual-licensed:
 
 If you are using this library to build a revenue-generating product or within a commercial entity, please visit [https://payhip.com/b/gPBpo](https://payhip.com/b/gPBpo) to purchase a license.
 
-------
-
-## Links
-[Official Website](https://www.tenorlab.com)
-[Buy a icense](https://payhip.com/b/gPBpo)
-[BlueSky](https://bsky.app/profile/tenorlab.bsky.social)
