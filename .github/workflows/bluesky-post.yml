@@ -9,10 +9,25 @@ jobs:
   post:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: Send Post to BlueSky
-        # We are switching to this more reliable action
         uses: myConsciousness/bluesky-post@v5
         with:
-          text: "🚀 New @tenorlab release! Version ${{ github.ref_name }} is now live on NPM."
+          # Improved Copy
+          text: |
+            🚀 New @tenorlab/react-dashboard release! 
+            
+            Version ${{ github.ref_name }} is now live on NPM.
+            
+            📦 View on NPM: https://www.npmjs.com/package/@tenorlab/react-dashboard
+
+            #react #dashboards #typescript
+            
           identifier: ${{ secrets.BSKY_HANDLE }}
           password: ${{ secrets.BSKY_PASSWORD }}
+          
+          # IMAGE OPTION: 
+          # To use this, ensure the file exists in your repo.
+          # image: ./assets/banner.png
