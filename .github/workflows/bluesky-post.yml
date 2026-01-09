@@ -9,10 +9,11 @@ jobs:
   post:
     runs-on: ubuntu-latest
     steps:
-      - name: Send Post
-        uses: zentered/bluesky-post-action@v1
+      - name: Send Post to BlueSky
+        # Changed from @v1 to @v1.4.1
+        uses: zentered/bluesky-post-action@v1.4.1 
         with:
-          post: "🚀 New @tenorlab/react-dashboard release! Version ${{ github.ref_name }} is now live on NPM."
+          post: "🚀 New @tenorlab release! Version ${{ github.ref_name }} is now live on NPM."
         env:
           BSKY_IDENTIFIER: ${{ secrets.BSKY_HANDLE }}
           BSKY_PASSWORD: ${{ secrets.BSKY_PASSWORD }}
