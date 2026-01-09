@@ -17,11 +17,10 @@ jobs:
         with:
           # Improved Copy
           text: |
-            🚀 New @tenorlab/react-dashboard release! 
-            
-            Version ${{ github.ref_name }} is now live on NPM.
+            🚀 @tenorlab/react-dashboard ${{ github.ref_name }} is now live on NPM.
             
             📦 View on NPM: https://www.npmjs.com/package/@tenorlab/react-dashboard
+            ✨ Demo: https://react.tenorlab.com
 
             #react #dashboards #typescript
             
