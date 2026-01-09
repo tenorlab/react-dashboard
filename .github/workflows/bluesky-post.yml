@@ -1,0 +1,18 @@
+name: BlueSky Release Post
+
+on:
+  push:
+    tags:
+      - 'v*' # This means: "Run this whenever I push a tag starting with 'v'"
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Post
+        uses: zentered/bluesky-post-action@v1
+        with:
+          post: "🚀 New @tenorlab/react-dashboard release! Version ${{ github.ref_name }} is now live on NPM."
+        env:
+          BSKY_IDENTIFIER: ${{ secrets.BSKY_HANDLE }}
+          BSKY_PASSWORD: ${{ secrets.BSKY_PASSWORD }}
