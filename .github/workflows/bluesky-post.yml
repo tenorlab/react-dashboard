@@ -30,7 +30,7 @@ jobs:
           # To use this, ensure the file exists in your repo.
           # Recommended Size: `1200 x 630 pixels` or `1080 x 1080 pixels`, max 1MB in size
           # Path to your image in the repo
-          media: ./readme-images/bsky-post-1200x630.webp
+          media: ./readme-images/bsky-post-1080x1080.webp
 
           # Accessibility Alt Text
           media-alt: "Screenshot of the @tenorlab/react-dashboard version ${{ github.ref_name }} demo."
