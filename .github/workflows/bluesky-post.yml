@@ -17,15 +17,20 @@ jobs:
         with:
           # Improved Copy
           text: |
-            🚀 [@tenorlab/react-dashboard](https://www.npmjs.com/package/@tenorlab/react-dashboard) ${{ github.ref_name }} is now live on NPM.
+            🚀 [@tenorlab/react-dashboard](https://www.npmjs.com/package/@tenorlab/react-dashboard) ${{ github.ref_name }} published on NPM.
             
             ✨ Demo: https://react.tenorlab.com
 
             #react #dashboards #typescript
-            
+
           identifier: ${{ secrets.BSKY_HANDLE }}
           password: ${{ secrets.BSKY_PASSWORD }}
-          
-          # IMAGE OPTION: 
+
+          # Image OPTION: 
           # To use this, ensure the file exists in your repo.
-          # image: ./assets/banner.png
+          # Recommended Size: `1200 x 630 pixels` or `1080 x 1080 pixels`, max 1MB in size
+          # Path to your image in the repo
+          media: ./readme-images/bsky-post-1200x630.webp
+
+          # Accessibility Alt Text
+          media-alt: "Screenshot of the @tenorlab/react-dashboard version ${{ github.ref_name }} demo."
