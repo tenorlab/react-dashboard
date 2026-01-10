@@ -17,7 +17,7 @@ This package extends **@tenorlab/dashboard-core**. It provides the React impleme
 ## ✨ Features
 
 - **Type-Safe:** Deep integration with TypeScript 5.8+ for full IDE support.
-- **State Management:** Built-in `useDashboardStore` (Zustand) and `useDashboardUndoService`.
+- **State Management:** Built-in `useDashboardStore` and `useDashboardUndoService`.
 - **User Configurable:** Ready-to-use components for adding, removing, and dragging widgets.
 - **Themeable:** Native support for CSS Variables and Tailwind CSS.
 - **Vite Optimized:** Full ESM support and tree-shakeable.
