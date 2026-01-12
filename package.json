@@ -1,8 +1,9 @@
 {
   "name": "@tenorlab/react-dashboard",
-  "version": "1.5.44",
+  "version": "1.5.45",
   "description": "Foundation components for creating user-configurable dashboards in React",
   "author": "Damiano Fusco",
+  "license": "SEE LICENSE IN LICENSE",
   "type": "module",
   "repository": {
     "type": "git",
@@ -32,7 +33,9 @@
     "push": "npm run pretty; git add .; git commit -m \"Latest\"; git push"
   },
   "files": [
-    "dist"
+    "dist",
+    "LICENSE",
+    "README.md"
   ],
   "exports": {
     ".": {

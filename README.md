@@ -1,5 +1,9 @@
 # @tenorlab/react-dashboard
 
+[![License: Polyform-NC-1.0.0](https://img.shields.io/badge/License-Polyform--NC--1.0.0-blue.svg)](https://polyformproject.org/licenses/non-commercial/1.0.0/)
+[![License: Tenorlab-Commercial](https://img.shields.io/badge/License-Tenorlab--Commercial-gold.svg)](https://payhip.com/b/gPBpo)
+[![Redistribution: Prohibited](https://img.shields.io/badge/Redistribution-Prohibited-red.svg)](#-distribution-restrictions)
+
 Foundation components for creating user-configurable, high-performance dashboards in React. Built on top of **@tenorlab/dashboard-core**.
 
 ## 🏗 Relationship to Core
@@ -379,12 +383,23 @@ For a complete example including **Undo/Redo**, **Zooming**, **Catalog Flyouts**
 ------
 
 
-## ⚖️ Licensing
+## ⚖️ Licensing & Usage
 
-This project is dual-licensed:
+This project is **Source-Available**. You are free to view, learn from, and experiment with the source code. However, use in professional or revenue-generating settings requires a license.
 
-1. **Non-Commercial / Personal Use:** Licensed under the [Polyform Non-Commercial 1.0.0](https://polyformproject.org/licenses/non-commercial/1.0.0/). Free for students, hobbyists, and open-source projects.
-2. **Commercial Use:** Requires a **Tenorlab Commercial License**.
+### 🏠 Non-Commercial Use (Free)
+If you are a student, hobbyist, or working on a non-profit open-source project, you may use this library for free under the terms of the **Polyform Non-Commercial 1.0.0** license.
 
-If you are using this library to build a revenue-generating product or within a commercial entity, please visit [https://payhip.com/b/gPBpo](https://payhip.com/b/gPBpo) to purchase a license.
+### 💼 Commercial Use (Requires License)
+A **Tenorlab Commercial License** is required if you are:
+* Building a dashboard for company internal or external use, including all company websites and applications.
+* Building a dashboard for a paying client.
+* Using the library within a for-profit company or startup.
+* Including the library in a product that is sold or requires a subscription.
 
+**Purchase a Commercial License here:** [https://www.tenorlab.com](https://www.tenorlab.com)
+
+### 🚫 Distribution Restrictions
+To protect the integrity of this framework, **redistribution of the source code is strictly prohibited**. 
+* You **may** use and modify the code to build an "End Product" (e.g., a dashboard for a specific app).
+* You **may NOT** redistribute the source code (original or modified) as a standalone library, UI kit, starter template, or "dashboard builder" for other developers to use.
