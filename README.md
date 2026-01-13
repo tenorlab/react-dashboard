@@ -1,10 +1,10 @@
 # @tenorlab/react-dashboard
 
-[![License: Polyform-NC-1.0.0](https://img.shields.io/badge/License-Polyform--NC--1.0.0-blue.svg)](https://polyformproject.org/licenses/non-commercial/1.0.0/)
-[![License: Tenorlab-Commercial](https://img.shields.io/badge/License-Tenorlab--Commercial-gold.svg)](https://payhip.com/b/gPBpo)
-[![Redistribution: Prohibited](https://img.shields.io/badge/Redistribution-Prohibited-red.svg)](#-distribution-restrictions)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
+[![Template: Pro](https://img.shields.io/badge/Template-Pro--Available-gold.svg)](https://www.tenorlab.com)
+[![Framework: React](https://img.shields.io/badge/Framework-React-blue.svg)](https://react.dev/)
 
-Foundation components for creating user-configurable, high-performance dashboards in React. Built on top of **@tenorlab/dashboard-core**.
+Foundation components for creating user-configurable, high-performance dashboards in React.
 
 ## 🏗 Relationship to Core
 
@@ -14,8 +14,9 @@ This package extends **@tenorlab/dashboard-core**. It provides the React impleme
 
 
 ## Demos
--- [React Demo](https://react.tenorlab.com) (built with @tenorlab/react-dashboard)
--- [Vue Demo](https://vue.tenorlab.com) (built with @tenorlab/vue-dashboard)
+
+* [**React Demo**](https://react.tenorlab.com) (built with **@tenorlab/react-dashboard**)
+* [**Vue Demo**](https://vue.tenorlab.com) (built with **@tenorlab/vue-dashboard**)
 
 
 ## ✨ Features
@@ -358,8 +359,8 @@ For a complete example including **Undo/Redo**, **Zooming**, **Catalog Flyouts**
 
 - **`DashboardGrid`**: The main layout engine for positioning widgets.
 - **`WidgetContainer`**: Wrapper providing common widget UI (headers, actions, loading states).
-- **`WidgetsCatalogFlyout`**: A slide-out panel for users to browse and add new widgets.
-- **`DynamicWidgetLoader`**: Lazy-loading utility for high-performance dashboards.
+- **`WidgetsCatalogFlyout`**: A draggable panel for users to browse and add new widgets.
+- **`DynamicWidgetLoader`**: The core widget loader component.
 
 ### Hooks & State
 
@@ -371,12 +372,13 @@ For a complete example including **Undo/Redo**, **Zooming**, **Catalog Flyouts**
 
 
 ## Links
+
  - [@tenorlab/react-dashboard](https://www.npmjs.com/package/@tenorlab/react-dashboard): React-specific components
  - [@tenorlab/vue-dashboard](https://www.npmjs.com/package/@tenorlab/vue-dashboard): Vue-specific components
  - [Official Website](https://www.tenorlab.com)
- - [React Demo](https://react.tenorlab.com) (built with @tenorlab/react-dashboard)
- - [Vue Demo](https://vue.tenorlab.com) (built with @tenorlab/vue-dashboard)
- - [Buy a License](https://payhip.com/b/gPBpo)
+ - [React Demo](https://react.tenorlab.com)
+ - [Vue Demo](https://vue.tenorlab.com)
+ - [Get the Pro Template](https://payhip.com/b/gPBpo)
  - [Follow on BlueSky](https://bsky.app/profile/tenorlab.bsky.social)
 
 
@@ -385,21 +387,18 @@ For a complete example including **Undo/Redo**, **Zooming**, **Catalog Flyouts**
 
 ## ⚖️ Licensing & Usage
 
-This project is **Source-Available**. You are free to view, learn from, and experiment with the source code. However, use in professional or revenue-generating settings requires a license.
+**@tenorlab/react-dashboard** is [MIT licensed](https://opensource.org/licenses/MIT). 
 
-### 🏠 Non-Commercial Use (Free)
-If you are a student, hobbyist, or working on a non-profit open-source project, you may use this library for free under the terms of the **Polyform Non-Commercial 1.0.0** license.
+It provides the foundational components and logic for building dashboards. You are free to use it in any project, personal or commercial.
 
-### 💼 Commercial Use (Requires License)
-A **Tenorlab Commercial License** is required if you are:
-* Building a dashboard for company internal or external use, including all company websites and applications.
-* Building a dashboard for a paying client.
-* Using the library within a for-profit company or startup.
-* Including the library in a product that is sold or requires a subscription.
+## ⚡️ Go Pro and Save Time: Tenorlab App Template
 
-**Purchase a Commercial License here:** [https://www.tenorlab.com](https://www.tenorlab.com)
+A commercial license for a full-blown professional app template is available for purchase [**here**](https://www.tenorlab.com) and comes with:
 
-### 🚫 Distribution Restrictions
-To protect the integrity of this framework, **redistribution of the source code is strictly prohibited**. 
-* You **may** use and modify the code to build an "End Product" (e.g., a dashboard for a specific app).
-* You **may NOT** redistribute the source code (original or modified) as a standalone library, UI kit, starter template, or "dashboard builder" for other developers to use.
+* **Full Application Shell:** A clean, optimized Vite + TypeScript project structure (with either React or Vue).
+* **Dashboard Management:** Production-ready logic for creating, listing, renaming, and deleting multiple user-defined dashboards.
+* **Implementation Examples:** Expert patterns for both "Read-Only" (Analyst view) and "User-Editable" (Admin view) dashboard modes.
+* **Tenorlab Theme Engine:** A sophisticated Tailwind-based system supporting multiple custom themes (not just Light/Dark mode).
+
+
+[**Live React Demo**](https://react.tenorlab.com), [**Live Vue Demo**](https://vue.tenorlab.com)

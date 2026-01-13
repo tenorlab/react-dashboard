@@ -1,9 +1,9 @@
 {
   "name": "@tenorlab/react-dashboard",
-  "version": "1.5.45",
+  "version": "1.6.0",
   "description": "Foundation components for creating user-configurable dashboards in React",
   "author": "Damiano Fusco",
-  "license": "SEE LICENSE IN LICENSE",
+  "license": "MIT",
   "type": "module",
   "repository": {
     "type": "git",

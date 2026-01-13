@@ -1,16 +1,6 @@
 // @tenorlab/react-dashboard
 // file: src/index.ts
-
-/**
- * @license
- * Copyright (c) 2026 Tenorlab. All rights reserved.
- * * This source code is licensed under a dual-license model:
- * 1. Non-Commercial: Polyform Non-Commercial License 1.0.0
- * 2. Commercial: Tenorlab Commercial License
- * * Commercial use or redistribution of this source code (original or modified)
- * is strictly prohibited without a valid Tenorlab Commercial License.
- * * Purchase/Inquiries: https://www.tenorlab.com
- */
+// Copyright (c) 2026 Tenorlab. @tenorlab/react-dashboard is licensed under MIT. https://www.tenorlab.com
 
 // import dashboard-core styles.css so we can re-export as part of this package
 import '@tenorlab/dashboard-core/styles.css'
