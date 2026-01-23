@@ -11,15 +11,20 @@ import type { IDashboardWidgetProps } from './interfaces/core-react.interfaces'
 
 const defaultActionIconSize = 'size-5'
 
-// 1. Define the generic functional component (pre-forwardRef)
-const DashboardWidgetBaseFn = (
-  props: IDashboardWidgetProps,
-  _ref: React.ForwardedRef<HTMLDivElement>,
-) => {
-  const hideTitle = props.hideTitle && !props.isEditing
+const _getCssClasses = (props: IDashboardWidgetProps): string => {
+  // if overrideCssClasses is provided, we do not compute any css classes but use the ones provided:
+  if ((props.overrideCssClasses || '').trim().length > 0) {
+    return (props.overrideCssClasses || '').trim()
+  }
+
+  const flowDirection = props.direction || 'column'
   const noBorder = props.noBorder
 
-  let cssClass = `dashboard-widget ${props.isEditing ? 'editing' : ''} border border-solid`
+  let cssClass = `dashboard-widget direction-${flowDirection} ${props.isEditing ? 'editing' : ''} border border-solid`
+
+  if (['large', 'xlarge'].indexOf(props.size || '') > -1) {
+    cssClass = `${cssClass} ${props.size}-widget`
+  }
 
   if (!noBorder) {
     if ((props.borderCssClasses || '').trim().length > 0) {
@@ -40,14 +45,26 @@ const DashboardWidgetBaseFn = (
   }
 
   if ((props.backgroundCssClasses || '').trim().length > 0) {
-    cssClass = `${cssClass} ${props.backgroundCssClasses}`
+    cssClass = `${cssClass} ${props.backgroundCssClasses}`.trim()
   } else {
     cssClass = `${cssClass} bg-card content-card`
   }
 
-  if (['large', 'xlarge'].indexOf(props.size || '') > -1) {
-    cssClass = `${cssClass} ${props.size}-widget`
+  if ((props.addCssClasses || '').trim().length > 0) {
+    cssClass = `${cssClass} ${props.addCssClasses}`.trim()
   }
+
+  return cssClass
+}
+
+// 1. Define the generic functional component (pre-forwardRef)
+const DashboardWidgetBaseFn = (
+  props: IDashboardWidgetProps,
+  _ref: React.ForwardedRef<HTMLDivElement>,
+) => {
+  const hideTitle = props.hideTitle && !props.isEditing
+
+  const cssClass = getDistinctCssClasses(_getCssClasses(props))
 
   const onRemoveClick = () => {
     if (props.onRemoveClick && props.widgetKey) {
