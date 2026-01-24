@@ -1,7 +1,7 @@
 # @tenorlab/react-dashboard
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
-[![Template: Pro](https://img.shields.io/badge/Template-Pro--Available-gold.svg)](https://www.tenorlab.com)
+[![Tenorlab Pro](https://img.shields.io/badge/Template-Pro--Available-gold.svg)](https://www.tenorlab.com)
 [![Framework: React](https://img.shields.io/badge/Framework-React-blue.svg)](https://react.dev/)
 
 Foundation components for creating user-configurable, high-performance dashboards in React.
@@ -13,7 +13,7 @@ This package extends **@tenorlab/dashboard-core**. It provides the React impleme
 > **Note**: This package re-exports all types and utilities from `@tenorlab/dashboard-core`. You do not need to install the core package separately.
 
 
-## Pro Template Demos
+## Tenorlab Pro Demos
   - [React Demo](https://react.tenorlab.com) (built with @tenorlab/react-dashboard)
   - [Vue Demo](https://vue.tenorlab.com) (built with @tenorlab/vue-dashboard)
   - [Nuxt Demo](https://nuxt.tenorlab.com) (built with @tenorlab/vue-dashboard)
@@ -397,7 +397,7 @@ export function DashboardReadonly() {
 
 #### 5. Full Editable Dashboard
 
-For editable dashboard examples, including **Undo/Redo**, **Zooming**, **Catalog Flyouts**, and **Multiple Dashboards**, please refer to the [Pro Template](https://www.tenorlab.com).
+For editable dashboard examples, including **Undo/Redo**, **Zooming**, **Catalog Flyouts**, and **Multiple Dashboards**, please refer to  [Tenorlab Pro](https://www.tenorlab.com).
 
 
 ------
@@ -426,7 +426,7 @@ For editable dashboard examples, including **Undo/Redo**, **Zooming**, **Catalog
  - [@tenorlab/react-dashboard](https://www.npmjs.com/package/@tenorlab/react-dashboard): React-specific components
  - [@tenorlab/vue-dashboard](https://www.npmjs.com/package/@tenorlab/vue-dashboard): Vue-specific components
 
-### Pro Template Demos
+### Tenorlab Pro Demos
  - [React Demo](https://react.tenorlab.com) (built with @tenorlab/react-dashboard)
  - [Vue Demo](https://vue.tenorlab.com) (built with @tenorlab/vue-dashboard)
  - [Nuxt Demo](https://nuxt.tenorlab.com) (built with @tenorlab/vue-dashboard)
@@ -446,9 +446,9 @@ For editable dashboard examples, including **Undo/Redo**, **Zooming**, **Catalog
 
 It provides the foundational components and logic for building dashboards. You are free to use it in any project, personal or commercial.
 
-## ⚡️ Go Pro and Save Time: Tenorlab App Template
+## ⚡️ Go Pro and Save Time: Tenorlab Pro
 
-A commercial license for a full-blown professional app template is available for purchase [**here**](https://www.tenorlab.com) and comes with:
+A commercial license for a full-blown professional app code is available for purchase [**here**](https://www.tenorlab.com) and comes with:
 
 * **Full Application Shell:** A clean, optimized Vite + TypeScript project structure (with either React, Vue or Nuxt).
 * **Dashboard Management:** Production-ready logic for creating, listing, renaming, and deleting multiple user-defined dashboards.
