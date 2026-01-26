@@ -228,6 +228,7 @@ export function WidgetsCatalogFlyout(props: TWidgetsCatalogFlyoutProps) {
   const [title, setTitle] = useState('Editing')
   const [tabValue, setTabValue] = useState(0)
   const [searchText, setSearchText] = useState('')
+  const [isDragging, setIsDragging] = useState(false)
   const [isTabsMenuOpen, setTabsMenuOpen] = useState(false)
 
   // Get the array of available widget keys from the Map
@@ -316,7 +317,6 @@ export function WidgetsCatalogFlyout(props: TWidgetsCatalogFlyoutProps) {
     setTabsMenuOpen(false)
   }
 
-  const [isDragging, setIsDragging] = useState(false)
   const onDraggingChange = (value: boolean) => {
     setIsDragging(value)
   }
