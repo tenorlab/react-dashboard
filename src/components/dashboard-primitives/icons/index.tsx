@@ -27,12 +27,23 @@ type TIconProps = {
   className?: string
 }
 
-export function AddIcon({ className }: TIconProps) {
+export function PlusCircleIcon({ className }: TIconProps) {
   return (
     <SvgBaseWrapper className={`lucide lucide-circle-plus-icon lucide-circle-plus ${className}`}>
       <circle cx="12" cy="12" r="10" />
       <path d="M8 12h8" />
       <path d="M12 8v8" />
+    </SvgBaseWrapper>
+  )
+}
+
+export const AddIcon = PlusCircleIcon
+
+export function MinusCircleIcon({ className }: TIconProps) {
+  return (
+    <SvgBaseWrapper className={`lucide lucide-circle-minus-icon lucide-circle-minus ${className}`}>
+      <circle cx="12" cy="12" r="10" />
+      <path d="M8 12h8" />
     </SvgBaseWrapper>
   )
 }
@@ -264,6 +275,14 @@ export function CircleQuestionMark({ className }: TIconProps) {
       <circle cx="12" cy="12" r="10" />
       <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
       <path d="M12 17h.01" />
+    </SvgBaseWrapper>
+  )
+}
+
+export function ChevronDownIcon({ className }: TIconProps) {
+  return (
+    <SvgBaseWrapper className={`lucide lucide-chevron-down-icon lucide-chevron-down ${className}`}>
+      <path d="m6 9 6 6 6-6" />
     </SvgBaseWrapper>
   )
 }

@@ -26,7 +26,7 @@ export const TextField: React.FC<ITextFieldProps> = ({
     }
   }, [size])
 
-  const cssClasses = getDistinctCssClasses(`flex flex-col mb-4`, className || '')
+  const cssClasses = getDistinctCssClasses(`flex flex-col gap-1`, className || '')
 
   // Base input styles
   // const inputBaseClasses =
@@ -47,9 +47,11 @@ export const TextField: React.FC<ITextFieldProps> = ({
 
   return (
     <div className={cssClasses}>
-      <label htmlFor={label} className="block text-sm/6 font-medium mb-1.5">
-        {label}
-      </label>
+      {(label || '').trim().length > 0 && (
+        <label htmlFor={label} className="block text-sm/6 font-medium">
+          {label}
+        </label>
+      )}
       <input
         id={label}
         type="text"

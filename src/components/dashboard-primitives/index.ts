@@ -6,6 +6,7 @@ export * from './icons'
 
 export * from './TextField'
 export * from './Buttons'
+export * from './Dropdown'
 export * from './Stack'
 export * from './ListItem'
 export * from './DraggablePanel'

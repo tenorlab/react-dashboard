@@ -1,5 +1,5 @@
 // file: src/components/WidgetsCatalogFlyout.tsx
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import {
   getWidgetMetaFromCatalog,
   dashboardSettingsUtils,
@@ -11,12 +11,16 @@ import {
   HandGrabIcon,
   TimerResetIcon as ResetDashboardToDefaultIcon,
   SettingsIcon,
+  PlusCircleIcon,
+  MinusCircleIcon,
+  ChevronDownIcon,
   UndoIcon,
   RedoIcon,
   CircleQuestionMark as UnknownWidgetIcon,
   Button,
   DraggablePanel,
   TextField,
+  Dropdown,
 } from './dashboard-primitives/'
 import type {
   IDashboardConfig,
@@ -26,6 +30,13 @@ import type {
   TWidgetMetaInfoBase,
 } from '@tenorlab/dashboard-core'
 import type { TDashboardWidgetCatalog } from './interfaces/'
+
+type TTabInfo = {
+  id: number
+  label: string
+  hideLabel?: boolean
+  icon?: React.ReactNode
+}
 
 type TWidgetListItemProps = {
   widgetKey: TDashboardWidgetKey
@@ -51,7 +62,7 @@ function WidgetListItem({
     flex flex-row gap-2 p-2 rounded-md border text-sm bg-card content-card backdrop-opacity-100
     ${
       !addNotAllowed
-        ? 'cursor-pointer border-primary fill-danger hover:fill-primary content-primary hover:brightness-110'
+        ? `cursor-pointer border-primary fill-danger hover:fill-primary content-primary hover:brightness-110`
         : 'border-disabled fill-disabled text-disabled'
     }
   `)
@@ -79,15 +90,15 @@ function WidgetListItem({
         </div>
         <div className="flex flex-col text-xs">
           <div>{description}</div>
-          <div className="mt-3 cursor-pointer" onClick={onExternalsClicked}>
-            Externals:
-          </div>
-          {showExternals && (
-            <dl className="ml-2 flex flex-col text-xs">
-              {metaData.externalDependencies.map((dep, i) => (
-                <dd key={i}>- {dep}</dd>
-              ))}
-            </dl>
+          {showExternals && metaData.externalDependencies.length > 0 && (
+            <div className="mt-3 cursor-pointer" onClick={onExternalsClicked}>
+              Externals:
+              <dl className="ml-2 flex flex-col text-xs">
+                {metaData.externalDependencies.map((dep, i) => (
+                  <dd key={i}>- {dep}</dd>
+                ))}
+              </dl>
+            </div>
           )}
         </div>
       </div>
@@ -105,8 +116,15 @@ function SettingListItem({ item, onSettingItemChanged }: TSettingListItemProps) 
   const displayName = item.name || 'Unknown'
   const description = item.description || '---'
   const className = getDistinctCssClasses(`
-    flex flex-row gap-2 p-2 rounded-md border text-sm bg-card content-card backdrop-opacity-100
+    flex flex-row gap-2 px-2 text-sm backdrop-opacity-100
   `)
+
+  const incrementOrDecrement = (direction: 1 | -1) => {
+    // increment/decrement entry value
+    const updatedEntry = dashboardSettingsUtils.incrementOrDecrementValue(item, direction)
+    // invoke callback with updated entry
+    onSettingItemChanged(updatedEntry)
+  }
 
   // 1. Handler for keyboard events (runs on key press)
   const onKeyDown = (ev: React.KeyboardEvent<HTMLInputElement>) => {
@@ -115,14 +133,8 @@ function SettingListItem({ item, onSettingItemChanged }: TSettingListItemProps) 
     if (['ArrowUp', 'ArrowDown'].includes(keyboardKey)) {
       // Prevent the default cursor movement or page scrolling action
       ev.preventDefault()
-
       // increment/decrement entry value
-      const updatedEntry = dashboardSettingsUtils.incrementOrDecrementValue(
-        item,
-        keyboardKey === 'ArrowUp' ? 1 : -1,
-      )
-      // invoke callback with updated entry
-      onSettingItemChanged(updatedEntry)
+      incrementOrDecrement(keyboardKey === 'ArrowUp' ? 1 : -1)
     }
   }
 
@@ -138,23 +150,40 @@ function SettingListItem({ item, onSettingItemChanged }: TSettingListItemProps) 
   return (
     <div className={className} style={{ width: 'calc(100% - 1rem)' }}>
       {/* <OptionIconComponent className="" /> */}
-      <div className="w-full">
-        <div className="flex flex-row items-center gap-2 justify-between">
-          <span className="font-bold">{displayName}</span>
-        </div>
-        <div className="flex flex-col gap-2 text-xs">
-          <div>{description}</div>
-        </div>
-        <div>
-          Value:
+      <div className="w-full flex flex-col">
+        <h6 className="font-bold">{displayName}</h6>
+        <p className="flex flex-col text-xs">{description}</p>
+        <div className="mt-1 flex flex-row gap-2 items-center">
           <TextField
-            label="Filter..."
+            label=""
             size="small"
             className="w-full"
             value={item.value}
             onChange={onInputChange}
             onKeyDown={onKeyDown}
           />
+          <Button
+            data-testid={`setting-decrease_${item.key}`}
+            isIconButton={true}
+            tooltip={{
+              placement: 'bottom',
+              title: 'Decrease Value',
+            }}
+            onClick={() => incrementOrDecrement(-1)}
+          >
+            <MinusCircleIcon />
+          </Button>
+          <Button
+            data-testid={`setting-increase_${item.key}`}
+            isIconButton={true}
+            tooltip={{
+              placement: 'bottom',
+              title: 'Increase Value',
+            }}
+            onClick={() => incrementOrDecrement(1)}
+          >
+            <PlusCircleIcon />
+          </Button>
         </div>
       </div>
     </div>
@@ -199,6 +228,7 @@ export function WidgetsCatalogFlyout(props: TWidgetsCatalogFlyoutProps) {
   const [title, setTitle] = useState('Editing')
   const [tabValue, setTabValue] = useState(0)
   const [searchText, setSearchText] = useState('')
+  const [isTabsMenuOpen, setTabsMenuOpen] = useState(false)
 
   // Get the array of available widget keys from the Map
   const widgetKeys: TDashboardWidgetKey[] = Array.from(props.widgetsCatalog.keys())
@@ -214,10 +244,6 @@ export function WidgetsCatalogFlyout(props: TWidgetsCatalogFlyoutProps) {
 
   const isTargetingContainer = !!props.targetContainerKey
 
-  // const handleTabChange = (event: React.ChangeEvent<any>, newValue: number) => {
-  //   setTabValue(newValue)
-  // }
-
   const handleSearchTextChange = (event: any) => {
     setSearchText(event.target.value)
   }
@@ -229,7 +255,8 @@ export function WidgetsCatalogFlyout(props: TWidgetsCatalogFlyoutProps) {
     }
     return (
       metaData.name.trim().toLowerCase().includes(lowerCaseText) ||
-      metaData.description.toLowerCase().includes(lowerCaseText)
+      metaData.description.toLowerCase().includes(lowerCaseText) ||
+      metaData.categories.some((c) => c.toLowerCase().includes(lowerCaseText))
     )
   }
 
@@ -244,10 +271,20 @@ export function WidgetsCatalogFlyout(props: TWidgetsCatalogFlyoutProps) {
     )
   }
 
-  const getTabClassName = (tabNum: number) => {
+  const getTabClassName = (tabNum: number, noBorderBottom?: boolean) => {
     return getDistinctCssClasses(
-      'px-4 py-2 font-medium cursor-pointer border-b-2 border-transparent hover:border-primary focus:outline-none',
+      'px-4 py-2 font-medium cursor-pointer',
+      `${!noBorderBottom ? 'border-b-2' : ''} border-transparent hover:border-primary focus:outline-none`,
       tabNum === tabValue ? 'text-primary border-primary' : '',
+    )
+  }
+
+  const getMobileTabClassName = (tabNum: number) => {
+    return getDistinctCssClasses(
+      `w-full flex items-center gap-2 px-2 py-1 text-left text-sm cursor-pointer border`,
+      tabNum !== tabValue
+        ? `border-transparent content-topbar hover:bg-primary hover:content-primary`
+        : 'border-primary text-primary',
     )
   }
 
@@ -271,6 +308,14 @@ export function WidgetsCatalogFlyout(props: TWidgetsCatalogFlyoutProps) {
     props.onSettingItemsUpdated(updatedItems)
   }
 
+  const handleToggleTabsOpen = (value: boolean) => {
+    setTabsMenuOpen(value)
+  }
+  const handleTabClick = (value: number) => {
+    setTabValue(value)
+    setTabsMenuOpen(false)
+  }
+
   const [isDragging, setIsDragging] = useState(false)
   const onDraggingChange = (value: boolean) => {
     setIsDragging(value)
@@ -278,24 +323,56 @@ export function WidgetsCatalogFlyout(props: TWidgetsCatalogFlyoutProps) {
 
   useEffect(() => {
     if (!!props.targetContainerKey) {
-      setTabValue(0)
+      handleTabClick(0)
       const containerTitle = parseContainerTitle(props.targetContainerKey)
       setTitle(`Editing ${containerTitle}`)
     } else {
-      setTitle('Editing Dashboard')
+      setTitle('Widget Catalog')
     }
   }, [props.targetContainerKey])
+
+  const tabs = useMemo((): TTabInfo[] => {
+    const results: TTabInfo[] = [
+      {
+        id: 0,
+        label: 'Widgets',
+      },
+      {
+        id: 1,
+        label: 'Charts',
+      },
+    ]
+
+    if (!isTargetingContainer) {
+      results.push({
+        id: 2,
+        label: 'Containers',
+      })
+      results.push({
+        id: 3,
+        label: 'CSS Settings',
+        hideLabel: true,
+        icon: <SettingsIcon />,
+      })
+    }
+
+    return results
+  }, [isTargetingContainer])
+
+  const currentCategory = useMemo((): string => {
+    return tabs.find((x) => x.id === tabValue)?.label || 'Category...'
+  }, [tabValue])
 
   return (
     <DraggablePanel
       testId="dashboard-catalog-flyout"
-      className="bg-body content-body bg-opacity-70 border-2 border-primary"
+      className="bg-body content-body bg-opacity-70 border-2 border-primary max-w-72 sm:max-w-90"
       zIndex={props.zIndex}
       style={{
-        width: '360px',
-        minWidth: '360px',
-        maxWidth: '360px',
-        minHeight: '360px',
+        // width: '360px',
+        // minWidth: '360px',
+        // maxWidth: '360px',
+        // minHeight: '360px',
         backdropFilter: 'blur(8px)',
       }}
       onDraggingChange={onDraggingChange}
@@ -316,7 +393,7 @@ export function WidgetsCatalogFlyout(props: TWidgetsCatalogFlyoutProps) {
             </h2>
           </div>
 
-          <div className="flex flex-row gap-2 items-center">
+          <div className="flex flex-row items-center gap-2">
             <Button
               data-testid="undo-dashboard-config-change"
               isIconButton={true}
@@ -356,28 +433,54 @@ export function WidgetsCatalogFlyout(props: TWidgetsCatalogFlyoutProps) {
         </div>
 
         {/* tabs */}
-        <div className="flex border-b border-gray-200">
-          <button onClick={() => setTabValue(0)} className={getTabClassName(0)}>
-            Widgets
-          </button>
-          <button onClick={() => setTabValue(1)} className={getTabClassName(1)}>
-            Charts
-          </button>
-          {!isTargetingContainer && (
-            <button onClick={() => setTabValue(2)} className={getTabClassName(2)}>
-              Containers
+        <div className="hidden sm:flex sm:flex-row sm:items-center sm:gap-1">
+          {tabs.map((tab) => (
+            <button
+              key={tab.id}
+              className={getTabClassName(tab.id, tab.id === 3)}
+              onClick={() => handleTabClick(tab.id)}
+            >
+              <span className={tab.hideLabel ? 'sr-only' : ''}>{tab.label}</span>
+              {tab.icon}
             </button>
-          )}
-          {!isTargetingContainer && (
-            <button onClick={() => setTabValue(3)} className={getTabClassName(3)}>
-              <SettingsIcon />
-            </button>
-          )}
+          ))}
+        </div>
+        {/* tabs mobile */}
+        <div className="flex flex-col gap-1 sm:hidden">
+          <Dropdown
+            enabled={true}
+            showChevron={true}
+            isMenuOpen={isTabsMenuOpen}
+            toggleOpen={handleToggleTabsOpen}
+            icon={
+              <div className="group flex items-center gap-2 text-primary group-hover:text-primary-inverse">
+                <h5 className="py-2 font-bold">{currentCategory}</h5>
+                <ChevronDownIcon className="shrink-0 ml-1 size-4" />
+              </div>
+            }
+          >
+            <div className="p-2 rounded-md border border-primary">
+              <h6 className="font-semibold">Category:</h6>
+              {tabs.map((tab) => (
+                <button
+                  key={tab.id}
+                  type="button"
+                  className={getMobileTabClassName(tab.id)}
+                  role="menuitem"
+                  tabIndex={-1}
+                  onClick={() => handleTabClick(tab.id)}
+                >
+                  <span>{tab.label}</span>
+                </button>
+              ))}
+            </div>
+          </Dropdown>
         </div>
 
-        <div className="flex items-center justify-between gap-1 w-full">
+        <div className="sm:mt-2 flex flex-col gap-1 w-full">
           <TextField
-            label="Filter..."
+            label=""
+            placeholder="Find..."
             size="small"
             className="w-full"
             value={searchText}
@@ -391,6 +494,7 @@ export function WidgetsCatalogFlyout(props: TWidgetsCatalogFlyoutProps) {
             maxHeight: '360px',
           }}
         >
+          {tabValue === 3 && <div className="hidden px-2 w-full sm:flex">{currentCategory}:</div>}
           {tabValue === 0 &&
             widgetsWithMeta
               .filter(
