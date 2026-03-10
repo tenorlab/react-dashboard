@@ -21,6 +21,12 @@ type TDashboardSlice = {
   currentDashboardConfig: IDashboardConfig
   targetContainerKey?: TDashboardWidgetKey | undefined
   getNextContainerKey: (containerWidgetKey: TDashboardWidgetKey) => TDashboardWidgetKey
+
+  getCurrentDashboardConfig: () => IDashboardConfig
+  getCurrentDashboardId: () => string
+  getIsResponsive: () => boolean
+  getTargetContainerKey: () => TDashboardWidgetKey | undefined
+  
   setIsLoading: (value: boolean) => boolean
   setIsEditing: (value: boolean) => boolean
   setTargetContainerKey: (value: TDashboardWidgetKey | undefined) => TDashboardWidgetKey | undefined
@@ -56,6 +62,12 @@ const createDashboardSlice: StateCreator<TDashboardSlice, [], [], TDashboardSlic
   targetContainerKey: undefined,
   getNextContainerKey: (containerWidgetKey: TDashboardWidgetKey): TDashboardWidgetKey =>
     dashboardStoreUtils.getNextContainerKey(get().currentDashboardConfig, containerWidgetKey),
+
+  getCurrentDashboardConfig: (): IDashboardConfig => get().currentDashboardConfig,
+  getCurrentDashboardId: (): string => get().currentDashboardConfig.dashboardId,
+  getIsResponsive: (): boolean => get().currentDashboardConfig.responsiveGrid || false,
+  getTargetContainerKey: (): TDashboardWidgetKey | undefined => get().targetContainerKey,
+
   setIsLoading: (value): boolean => {
     set(() => ({ isLoading: value }))
     return value
