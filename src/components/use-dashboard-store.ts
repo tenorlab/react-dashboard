@@ -26,7 +26,7 @@ type TDashboardSlice = {
   getCurrentDashboardId: () => string
   getIsResponsive: () => boolean
   getTargetContainerKey: () => TDashboardWidgetKey | undefined
-  
+
   setIsLoading: (value: boolean) => boolean
   setIsEditing: (value: boolean) => boolean
   setTargetContainerKey: (value: TDashboardWidgetKey | undefined) => TDashboardWidgetKey | undefined

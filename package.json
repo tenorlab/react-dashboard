@@ -1,6 +1,6 @@
 {
   "name": "@tenorlab/react-dashboard",
-  "version": "1.6.4",
+  "version": "1.6.5",
   "description": "Foundation components for creating user-configurable dashboards in React",
   "author": "Damiano Fusco",
   "license": "MIT",
@@ -55,7 +55,7 @@
     "zustand": "5.0.9"
   },
   "devDependencies": {
-    "@tenorlab/dashboard-core": "^1.6.3",
+    "@tenorlab/dashboard-core": "^1.6.4",
     "@types/node": "^24.10.1",
     "@types/react": "19.2.3",
     "@types/react-dom": "19.2.3",
