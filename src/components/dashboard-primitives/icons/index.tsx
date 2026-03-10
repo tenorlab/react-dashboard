@@ -1,9 +1,11 @@
 export function SvgBaseWrapper({
   children,
   className,
+  style,
 }: {
   children: React.ReactNode
   className?: string
+  style?: React.CSSProperties
 }) {
   return (
     <svg
@@ -17,6 +19,7 @@ export function SvgBaseWrapper({
       strokeLinecap="round"
       strokeLinejoin="round"
       className={className}
+      style={style}
     >
       {children}
     </svg>
@@ -25,11 +28,15 @@ export function SvgBaseWrapper({
 
 type TIconProps = {
   className?: string
+  style?: React.CSSProperties
 }
 
-export function PlusCircleIcon({ className }: TIconProps) {
+export function PlusCircleIcon({ className, style }: TIconProps) {
   return (
-    <SvgBaseWrapper className={`lucide lucide-circle-plus-icon lucide-circle-plus ${className}`}>
+    <SvgBaseWrapper
+      className={`lucide lucide-circle-plus-icon lucide-circle-plus ${className}`}
+      style={style}
+    >
       <circle cx="12" cy="12" r="10" />
       <path d="M8 12h8" />
       <path d="M12 8v8" />
@@ -39,18 +46,24 @@ export function PlusCircleIcon({ className }: TIconProps) {
 
 export const AddIcon = PlusCircleIcon
 
-export function MinusCircleIcon({ className }: TIconProps) {
+export function MinusCircleIcon({ className, style }: TIconProps) {
   return (
-    <SvgBaseWrapper className={`lucide lucide-circle-minus-icon lucide-circle-minus ${className}`}>
+    <SvgBaseWrapper
+      className={`lucide lucide-circle-minus-icon lucide-circle-minus ${className}`}
+      style={style}
+    >
       <circle cx="12" cy="12" r="10" />
       <path d="M8 12h8" />
     </SvgBaseWrapper>
   )
 }
 
-export function DeleteIcon({ className }: TIconProps) {
+export function DeleteIcon({ className, style }: TIconProps) {
   return (
-    <SvgBaseWrapper className={`lucide lucide-trash2-icon lucide-trash-2 ${className}`}>
+    <SvgBaseWrapper
+      className={`lucide lucide-trash2-icon lucide-trash-2 ${className}`}
+      style={style}
+    >
       <path d="M10 11v6" />
       <path d="M14 11v6" />
       <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
@@ -60,19 +73,23 @@ export function DeleteIcon({ className }: TIconProps) {
   )
 }
 
-export function EditIcon({ className }: TIconProps) {
+export function EditIcon({ className, style }: TIconProps) {
   return (
-    <SvgBaseWrapper className={`lucide lucide-square-pen-icon lucide-square-pen ${className}`}>
+    <SvgBaseWrapper
+      className={`lucide lucide-square-pen-icon lucide-square-pen ${className}`}
+      style={style}
+    >
       <path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
       <path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z" />
     </SvgBaseWrapper>
   )
 }
 
-export function RenameIcon({ className }: TIconProps) {
+export function RenameIcon({ className, style }: TIconProps) {
   return (
     <SvgBaseWrapper
       className={`lucide lucide-text-cursor-input-icon lucide-text-cursor-input ${className}`}
+      style={style}
     >
       <path d="M12 20h-1a2 2 0 0 1-2-2 2 2 0 0 1-2 2H6" />
       <path d="M13 8h7a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-7" />
@@ -83,9 +100,12 @@ export function RenameIcon({ className }: TIconProps) {
   )
 }
 
-export function GridIcon({ className }: TIconProps) {
+export function GridIcon({ className, style }: TIconProps) {
   return (
-    <SvgBaseWrapper className={`lucide lucide-grid3x3-icon lucide-grid-3x3 ${className}`}>
+    <SvgBaseWrapper
+      className={`lucide lucide-grid3x3-icon lucide-grid-3x3 ${className}`}
+      style={style}
+    >
       <rect width="18" height="18" x="3" y="3" rx="2" />
       <path d="M3 9h18" />
       <path d="M3 15h18" />
@@ -95,9 +115,12 @@ export function GridIcon({ className }: TIconProps) {
   )
 }
 
-export function MonitorIcon({ className }: TIconProps) {
+export function MonitorIcon({ className, style }: TIconProps) {
   return (
-    <SvgBaseWrapper className={`lucide lucide-monitor-icon lucide-monitor ${className}`}>
+    <SvgBaseWrapper
+      className={`lucide lucide-monitor-icon lucide-monitor ${className}`}
+      style={style}
+    >
       <rect width="20" height="14" x="2" y="3" rx="2" />
       <line x1="8" x2="16" y1="21" y2="21" />
       <line x1="12" x2="12" y1="17" y2="21" />
@@ -105,10 +128,11 @@ export function MonitorIcon({ className }: TIconProps) {
   )
 }
 
-export function MonitorSmartphoneIcon({ className }: TIconProps) {
+export function MonitorSmartphoneIcon({ className, style }: TIconProps) {
   return (
     <SvgBaseWrapper
       className={`lucide lucide-monitor-smartphone-icon lucide-monitor-smartphone ${className}`}
+      style={style}
     >
       <path d="M18 8V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h8" />
       <path d="M10 19v-3.96 3.15" />
@@ -118,10 +142,11 @@ export function MonitorSmartphoneIcon({ className }: TIconProps) {
   )
 }
 
-export function MoveLeftIcon({ className }: TIconProps) {
+export function MoveLeftIcon({ className, style }: TIconProps) {
   return (
     <SvgBaseWrapper
       className={`lucide lucide-circle-arrow-left-icon lucide-circle-arrow-left ${className}`}
+      style={style}
     >
       <circle cx="12" cy="12" r="10" />
       <path d="m12 8-4 4 4 4" />
@@ -130,10 +155,11 @@ export function MoveLeftIcon({ className }: TIconProps) {
   )
 }
 
-export function MoveRightIcon({ className }: TIconProps) {
+export function MoveRightIcon({ className, style }: TIconProps) {
   return (
     <SvgBaseWrapper
       className={`lucide lucide-circle-arrow-right-icon lucide-circle-arrow-right ${className}`}
+      style={style}
     >
       <circle cx="12" cy="12" r="10" />
       <path d="m12 16 4-4-4-4" />
@@ -142,19 +168,23 @@ export function MoveRightIcon({ className }: TIconProps) {
   )
 }
 
-export function SettingsIcon({ className }: TIconProps) {
+export function SettingsIcon({ className, style }: TIconProps) {
   return (
-    <SvgBaseWrapper className={`lucide lucide-settings-icon lucide-settings ${className}`}>
+    <SvgBaseWrapper
+      className={`lucide lucide-settings-icon lucide-settings ${className}`}
+      style={style}
+    >
       <path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" />
       <circle cx="12" cy="12" r="3" />
     </SvgBaseWrapper>
   )
 }
 
-export function TabletSmartphoneIcon({ className }: TIconProps) {
+export function TabletSmartphoneIcon({ className, style }: TIconProps) {
   return (
     <SvgBaseWrapper
       className={`lucide lucide-tablet-smartphone-icon lucide-tablet-smartphone ${className}`}
+      style={style}
     >
       <rect width="10" height="14" x="3" y="8" rx="2" />
       <path d="M5 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2h-2.4" />
@@ -163,9 +193,12 @@ export function TabletSmartphoneIcon({ className }: TIconProps) {
   )
 }
 
-export function XCircleIcon({ className }: TIconProps) {
+export function XCircleIcon({ className, style }: TIconProps) {
   return (
-    <SvgBaseWrapper className={`lucide lucide-circle-x-icon lucide-circle-x ${className}`}>
+    <SvgBaseWrapper
+      className={`lucide lucide-circle-x-icon lucide-circle-x ${className}`}
+      style={style}
+    >
       <circle cx="12" cy="12" r="10" />
       <path d="m15 9-6 6" />
       <path d="m9 9 6 6" />
@@ -173,9 +206,12 @@ export function XCircleIcon({ className }: TIconProps) {
   )
 }
 
-export function ZoomInIcon({ className }: TIconProps) {
+export function ZoomInIcon({ className, style }: TIconProps) {
   return (
-    <SvgBaseWrapper className={`lucide lucide-zoom-in-icon lucide-zoom-in ${className}`}>
+    <SvgBaseWrapper
+      className={`lucide lucide-zoom-in-icon lucide-zoom-in ${className}`}
+      style={style}
+    >
       <circle cx="11" cy="11" r="8" />
       <line x1="21" x2="16.65" y1="21" y2="16.65" />
       <line x1="11" x2="11" y1="8" y2="14" />
@@ -184,9 +220,12 @@ export function ZoomInIcon({ className }: TIconProps) {
   )
 }
 
-export function ZoomOutIcon({ className }: TIconProps) {
+export function ZoomOutIcon({ className, style }: TIconProps) {
   return (
-    <SvgBaseWrapper className={`lucide lucide-zoom-out-icon lucide-zoom-out ${className}`}>
+    <SvgBaseWrapper
+      className={`lucide lucide-zoom-out-icon lucide-zoom-out ${className}`}
+      style={style}
+    >
       <circle cx="11" cy="11" r="8" />
       <line x1="21" x2="16.65" y1="21" y2="16.65" />
       <line x1="8" x2="14" y1="11" y2="11" />
@@ -194,9 +233,12 @@ export function ZoomOutIcon({ className }: TIconProps) {
   )
 }
 
-export function TimerResetIcon({ className }: TIconProps) {
+export function TimerResetIcon({ className, style }: TIconProps) {
   return (
-    <SvgBaseWrapper className={`lucide lucide-timer-reset-icon lucide-timer-reset ${className}`}>
+    <SvgBaseWrapper
+      className={`lucide lucide-timer-reset-icon lucide-timer-reset ${className}`}
+      style={style}
+    >
       <path d="M10 2h4" />
       <path d="M12 14v-4" />
       <path d="M4 13a8 8 0 0 1 8-7 8 8 0 1 1-5.3 14L4 17.6" />
@@ -205,27 +247,27 @@ export function TimerResetIcon({ className }: TIconProps) {
   )
 }
 
-export function UndoIcon({ className }: TIconProps) {
+export function UndoIcon({ className, style }: TIconProps) {
   return (
-    <SvgBaseWrapper className={`lucide lucide-undo-icon lucide-undo ${className}`}>
+    <SvgBaseWrapper className={`lucide lucide-undo-icon lucide-undo ${className}`} style={style}>
       <path d="M3 7v6h6" />
       <path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13" />
     </SvgBaseWrapper>
   )
 }
 
-export function RedoIcon({ className }: TIconProps) {
+export function RedoIcon({ className, style }: TIconProps) {
   return (
-    <SvgBaseWrapper className={`lucide lucide-redo-icon lucide-redo ${className}`}>
+    <SvgBaseWrapper className={`lucide lucide-redo-icon lucide-redo ${className}`} style={style}>
       <path d="M21 7v6h-6" />
       <path d="M3 17a9 9 0 0 1 9-9 9 9 0 0 1 6 2.3l3 2.7" />
     </SvgBaseWrapper>
   )
 }
 
-export function HandIcon({ className }: TIconProps) {
+export function HandIcon({ className, style }: TIconProps) {
   return (
-    <SvgBaseWrapper className={`lucide lucide-hand-icon lucide-hand ${className}`}>
+    <SvgBaseWrapper className={`lucide lucide-hand-icon lucide-hand ${className}`} style={style}>
       <path d="M18 11V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2" />
       <path d="M14 10V4a2 2 0 0 0-2-2a2 2 0 0 0-2 2v2" />
       <path d="M10 10.5V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2v8" />
@@ -234,9 +276,12 @@ export function HandIcon({ className }: TIconProps) {
   )
 }
 
-export function HandGrabIcon({ className }: TIconProps) {
+export function HandGrabIcon({ className, style }: TIconProps) {
   return (
-    <SvgBaseWrapper className={`lucide lucide-hand-grab-icon lucide-hand-grab ${className}`}>
+    <SvgBaseWrapper
+      className={`lucide lucide-hand-grab-icon lucide-hand-grab ${className}`}
+      style={style}
+    >
       <path d="M18 11.5V9a2 2 0 0 0-2-2a2 2 0 0 0-2 2v1.4" />
       <path d="M14 10V8a2 2 0 0 0-2-2a2 2 0 0 0-2 2v2" />
       <path d="M10 9.9V9a2 2 0 0 0-2-2a2 2 0 0 0-2 2v5" />
@@ -246,9 +291,12 @@ export function HandGrabIcon({ className }: TIconProps) {
   )
 }
 
-export function CrosshairIcon({ className }: TIconProps) {
+export function CrosshairIcon({ className, style }: TIconProps) {
   return (
-    <SvgBaseWrapper className={`lucide lucide-crosshair-icon lucide-crosshair ${className}`}>
+    <SvgBaseWrapper
+      className={`lucide lucide-crosshair-icon lucide-crosshair ${className}`}
+      style={style}
+    >
       <line x1="22" x2="18" y1="12" y2="12" />
       <line x1="6" x2="2" y1="12" y2="12" />
       <line x1="12" x2="12" y1="6" y2="2" />
@@ -257,9 +305,12 @@ export function CrosshairIcon({ className }: TIconProps) {
   )
 }
 
-export function TargetIcon({ className }: TIconProps) {
+export function TargetIcon({ className, style }: TIconProps) {
   return (
-    <SvgBaseWrapper className={`lucide lucide-target-icon lucide-target ${className}`}>
+    <SvgBaseWrapper
+      className={`lucide lucide-target-icon lucide-target ${className}`}
+      style={style}
+    >
       <circle cx="12" cy="12" r="10" />
       <circle cx="12" cy="12" r="6" />
       <circle cx="12" cy="12" r="2" />
@@ -267,10 +318,11 @@ export function TargetIcon({ className }: TIconProps) {
   )
 }
 
-export function CircleQuestionMark({ className }: TIconProps) {
+export function CircleQuestionMark({ className, style }: TIconProps) {
   return (
     <SvgBaseWrapper
       className={`lucide lucide-file-question-mark-icon lucide-file-question-mark ${className}`}
+      style={style}
     >
       <circle cx="12" cy="12" r="10" />
       <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
@@ -279,9 +331,12 @@ export function CircleQuestionMark({ className }: TIconProps) {
   )
 }
 
-export function ChevronDownIcon({ className }: TIconProps) {
+export function ChevronDownIcon({ className, style }: TIconProps) {
   return (
-    <SvgBaseWrapper className={`lucide lucide-chevron-down-icon lucide-chevron-down ${className}`}>
+    <SvgBaseWrapper
+      className={`lucide lucide-chevron-down-icon lucide-chevron-down ${className}`}
+      style={style}
+    >
       <path d="m6 9 6 6 6-6" />
     </SvgBaseWrapper>
   )

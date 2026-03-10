@@ -8,6 +8,7 @@ import type {
   TWidgetFactoryBase,
   IDynamicWidgetCatalogEntryBase,
   TDashboardWidgetCatalogBase,
+  IWidgetSavedProps,
 } from '@tenorlab/dashboard-core'
 import type { ReactNode, JSX } from 'react'
 
@@ -50,6 +51,8 @@ export interface IDashboardWidgetProps<
   TExtraProps = any,
 > extends IDashboardWidgetPropsBase<TExtraProps> {
   children?: ReactNode
+  titleNode?: ReactNode
+  titleRightNode?: ReactNode
   onRemoveClick?: (widgetKey: TDashboardWidgetKey, parentWidgetKey?: TDashboardWidgetKey) => void
   onMoveClick?: (
     direction: -1 | 1,
@@ -57,6 +60,7 @@ export interface IDashboardWidgetProps<
     parentWidgetKey?: TDashboardWidgetKey,
   ) => void
   selectContainer?: (containerKey?: TDashboardWidgetKey) => void
+  savedPropsChanged?: (value: IWidgetSavedProps) => any
 }
 
 /**

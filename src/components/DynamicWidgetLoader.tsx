@@ -1,7 +1,11 @@
 // file: src/components/DynamicWidgetLoader.tsx
 import React, { Suspense, useMemo } from 'react'
 import { parseContainerTitle } from '@tenorlab/dashboard-core'
-import type { IChildWidgetConfigEntry, TDashboardWidgetKey } from '@tenorlab/dashboard-core'
+import type {
+  IChildWidgetConfigEntry,
+  IWidgetSavedProps,
+  TDashboardWidgetKey,
+} from '@tenorlab/dashboard-core'
 import type { TDashboardWidgetCatalog, TWidgetErrorExtraProps } from './interfaces'
 import { WidgetErrorWrapper } from './WidgetErrorWrapper'
 
@@ -12,6 +16,7 @@ type TDynamicWidgetLoaderProps<TExtraProps = any> = {
   parentWidgetKey?: TDashboardWidgetKey
   targetContainerKey?: TDashboardWidgetKey
   childWidgetsConfig?: IChildWidgetConfigEntry[]
+  savedProps?: IWidgetSavedProps[]
   widgetCatalog: TDashboardWidgetCatalog
   isEditing: boolean
   // for additional props passed to all widget from the dashboard through the DynamicWidgetLoader:
@@ -23,6 +28,7 @@ type TDynamicWidgetLoaderProps<TExtraProps = any> = {
     parentWidgetKey?: TDashboardWidgetKey,
   ) => void
   selectContainer?: (containerKey: TDashboardWidgetKey) => void
+  savedPropsChanged: (value: IWidgetSavedProps) => any
 }
 
 /**
@@ -69,6 +75,7 @@ export function DynamicWidgetLoader({
   parentWidgetKey,
   targetContainerKey,
   childWidgetsConfig,
+  savedProps,
   widgetCatalog,
   isEditing,
   // for additional props passed to all widget from the dashboard through the DynamicWidgetLoader:
@@ -76,6 +83,7 @@ export function DynamicWidgetLoader({
   onRemoveClick,
   onMoveClick,
   selectContainer,
+  savedPropsChanged,
 }: TDynamicWidgetLoaderProps) {
   // 1. --- Key Parsing and Catalog Lookup ---
   const parts = `${widgetKey}`.split('_')
@@ -119,6 +127,22 @@ export function DynamicWidgetLoader({
     title: isContainerInstance ? parsedContainerTitle : widgetCatalogEntry.title,
     onRemoveClick,
     onMoveClick,
+    savedPropsChanged,
+  }
+
+  const getWidgetSavedProps = (
+    widgetKey: TDashboardWidgetKey,
+    parentWidgetKey: TDashboardWidgetKey | undefined,
+  ): IWidgetSavedProps | undefined => {
+    // console.log('getWidgetSavedProps', widgetKey, parentWidgetKey, savedProps)
+    if ((parentWidgetKey || '').trim().length > 0) {
+      return (savedProps || []).find(
+        (x) => x.parentWidgetKey === parentWidgetKey && x.widgetKey === widgetKey,
+      )
+    }
+    return (savedProps || []).find(
+      (x) => (x.parentWidgetKey || '').trim().length === 0 && x.widgetKey === widgetKey,
+    )
   }
 
   // 2. --- Component Source Determination ---
@@ -274,11 +298,14 @@ export function DynamicWidgetLoader({
             extraProps={extraProps}
             onRemoveClick={onRemoveClick}
             onMoveClick={onMoveClick}
+            savedPropsChanged={savedPropsChanged}
             // Note: targetContainerKey and selectContainer are not passed down to children
           />
         )),
       }
-    : {}
+    : {
+        widgetSavedProps: getWidgetSavedProps(widgetKey, parentWidgetKey),
+      }
 
   // 4. --- Conditional Render ---
   if (requiresSuspense) {

@@ -376,7 +376,9 @@ export function WidgetsCatalogFlyout(props: TWidgetsCatalogFlyoutProps) {
       <div className="flex flex-col gap-2 p-2">
         <div className="flex flex-row gap-2 justify-between">
           {/* drag handle */}
-          <div className={`handle cursor-grab flex-1 flex gap-2 w-full ${!isDragging ? 'hover:text-primary' : 'text-warning'}`}>
+          <div
+            className={`handle cursor-grab flex-1 flex gap-2 w-full ${!isDragging ? 'hover:text-primary' : 'text-warning'}`}
+          >
             {isDragging ? <HandGrabIcon className="size-5" /> : <HandIcon className="size-5" />}
             <h2
               className="flex-1 text-base margin-0 capitalize"
