@@ -228,6 +228,7 @@ export function WidgetsCatalogFlyout(props: TWidgetsCatalogFlyoutProps) {
   const [title, setTitle] = useState('Editing')
   const [tabValue, setTabValue] = useState(0)
   const [searchText, setSearchText] = useState('')
+  const [isDragging, setIsDragging] = useState(false)
   const [isTabsMenuOpen, setTabsMenuOpen] = useState(false)
 
   // Get the array of available widget keys from the Map
@@ -316,7 +317,6 @@ export function WidgetsCatalogFlyout(props: TWidgetsCatalogFlyoutProps) {
     setTabsMenuOpen(false)
   }
 
-  const [isDragging, setIsDragging] = useState(false)
   const onDraggingChange = (value: boolean) => {
     setIsDragging(value)
   }
@@ -366,20 +366,19 @@ export function WidgetsCatalogFlyout(props: TWidgetsCatalogFlyoutProps) {
   return (
     <DraggablePanel
       testId="dashboard-catalog-flyout"
-      className="bg-body content-body bg-opacity-70 border-2 border-primary max-w-72 sm:max-w-90"
-      zIndex={props.zIndex}
+      className={`transition-colors duration-150 bg-body content-body bg-opacity-70 border-2 ${!isDragging ? 'border-primary' : 'border-warning'} max-w-72 sm:max-w-90`}
+      zIndex={props.zIndex || 99999}
       style={{
-        // width: '360px',
-        // minWidth: '360px',
-        // maxWidth: '360px',
-        // minHeight: '360px',
         backdropFilter: 'blur(8px)',
       }}
       onDraggingChange={onDraggingChange}
     >
       <div className="flex flex-col gap-2 p-2">
         <div className="flex flex-row gap-2 justify-between">
-          <div className="handle flex-1 flex gap-2 w-full hover:text-primary cursor-grab">
+          {/* drag handle */}
+          <div
+            className={`handle cursor-grab flex-1 flex gap-2 w-full ${!isDragging ? 'hover:text-primary' : 'text-warning'}`}
+          >
             {isDragging ? <HandGrabIcon className="size-5" /> : <HandIcon className="size-5" />}
             <h2
               className="flex-1 text-base margin-0 capitalize"
